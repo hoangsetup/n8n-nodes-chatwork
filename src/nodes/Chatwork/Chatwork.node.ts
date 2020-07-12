@@ -223,6 +223,16 @@ export class Chatwork implements INodeType {
             description: 'Get chat name, icon, and Type (my, direct, or group)',
           },
           {
+            name: 'Get members',
+            value: 'getMembers',
+            description: 'Get the list of all chat members associated with the specified chat ',
+          },
+          {
+            name: 'Get messages',
+            value: 'getMessages',
+            description: 'Get all messages associated with the specified chat (returns up to 100 entries). ',
+          },
+          {
             name: 'Send message',
             value: 'sendMessage',
             description: 'Add new message to the chat',
@@ -234,13 +244,16 @@ export class Chatwork implements INodeType {
         displayName: 'Chatroom ID',
         name: 'roomId',
         type: 'number',
+        required: true,
         default: 0,
         displayOptions: {
           show: {
-            resource: ['room'],
+            resource: ['rooms'],
             operation: [
               'getDetail',
               'sendMessage',
+              'getMembers',
+              'getMessages',
             ],
           },
         },
@@ -297,6 +310,12 @@ export class Chatwork implements INodeType {
                 endpoint += '/messages';
                 const message = this.getNodeParameter('message', 0) as string;
                 body = { body: message };
+                break;
+              case 'getMembers':
+                endpoint += '/members';
+                break;
+              case 'getMessages':
+                endpoint += '/messages?force=1';
                 break;
               default:
                 break
