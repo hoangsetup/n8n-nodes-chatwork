@@ -48,7 +48,7 @@ To make this node even better, please let us know, [how you use it](mailto:hoang
 
 ## Issues
 
-If you have any issues, please [let us know on GitHub](https://github.com/quansenB/n8n-nodes-chatwork/issues).
+If you have any issues, please [let us know on GitHub](https://github.com/hoangsetup/n8n-nodes-chatwork/issues).
 
 ## About
 Special thanks to [N8n nodemation](https://n8n.io) workflow automation by Jan Oberhauser.
