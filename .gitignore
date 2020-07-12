@@ -1,0 +1,7 @@
+node_modules
+.vscode/settings.json
+
+# Temp file of n8n-node-dev process
+tmp-*
+
+dist/
