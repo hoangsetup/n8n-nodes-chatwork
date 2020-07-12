@@ -51,8 +51,13 @@ export class Chatwork implements INodeType {
             description: 'Used to access your data on the account.',
           },
           {
-            name: 'Room',
-            value: 'room',
+            name: 'Contacts',
+            value: 'contacts',
+            description: 'Used to access the list of your contacts',
+          },
+          {
+            name: 'Rooms',
+            value: 'rooms',
             description: `Used to access information such as messages, members, files, and tasks associated to a specific conversation. The
             conversation can be Group chat, Direct chat, or My chat`,
           },
@@ -167,6 +172,31 @@ export class Chatwork implements INodeType {
       },
 
       // --------------------
+      // Contact operations
+      // --------------------
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: [
+              'contacts',
+            ],
+          },
+        },
+        options: [
+          {
+            name: 'Get',
+            value: 'get',
+            description: 'Get the list of your contacts',
+          },
+        ],
+        default: 'get',
+      },
+
+      // --------------------
       // Room operations
       // --------------------
       {
@@ -177,7 +207,7 @@ export class Chatwork implements INodeType {
         displayOptions: {
           show: {
             resource: [
-              'room',
+              'rooms',
             ],
           },
         },
@@ -244,43 +274,50 @@ export class Chatwork implements INodeType {
 
     // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-
-      let endpoint = '';
-      let method = 'GET';
-      let body = null;
-
       const resource = this.getNodeParameter('resource', 0) as string;
       const operation = this.getNodeParameter('operation', 0) as string;
 
-      endpoint = '';
+      let endpoint = `/${resource}`;
+      let method = 'GET';
+      let body = null;
 
       if (resource === 'my') {
-        endpoint += `/my/${operation}`;
+        endpoint += `/${operation}`;
       }
 
-      if (resource === 'room') {
-        endpoint += `/rooms`;
+      if (resource === 'rooms') {
+        if (operation !== 'get') {
+          const roomId = this.getNodeParameter('roomId', 0) as string;
+          if (typeof roomId === 'number' && roomId !== 0) {
+            endpoint += `/${roomId}`;
 
-        const roomId = this.getNodeParameter('roomId', 0) as string;
-        if (typeof roomId === 'number' && roomId !== 0) {
-          endpoint += `/${roomId}`;
-
-          switch (operation) {
-            case 'sendMessage':
-              method = 'POST';
-              endpoint += '/messages';
-              const message = this.getNodeParameter('message', 0) as string;
-              body = { body: message };
-              break;
-            default:
-              break
+            switch (operation) {
+              case 'sendMessage':
+                method = 'POST';
+                endpoint += '/messages';
+                const message = this.getNodeParameter('message', 0) as string;
+                body = { body: message };
+                break;
+              default:
+                break
+            }
           }
         }
       }
 
       const response = await chatworkApiRequest.call(this, method, endpoint, body);
-      returnItems.push({json: response});
+      if (Array.isArray(response)) {
+        // flatten response
+        returnItems.push(...response);
+      } else {
+        returnItems.push({ json: response});
+      }
     }
-    return [returnItems];
+
+    if (returnItems.some((i) => i.json)) {
+      return [returnItems];
+    } else {
+      return [this.helpers.returnJsonArray(returnItems)];
+    }
   }
 }
