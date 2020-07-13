@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-chatwork",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "keywords": [
     "n8n",
     "nodemation",
@@ -31,7 +31,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc && gulp",
+    "build": "npx tsc -b tsconfig.build.json && gulp",
     "dev": "npm run watch",
     "tslint": "tslint -p tsconfig.json -c tslint.json",
     "watch": "tsc --watch",
