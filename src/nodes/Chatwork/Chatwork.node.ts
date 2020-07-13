@@ -287,8 +287,8 @@ export class Chatwork implements INodeType {
 
     // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-      const resource = this.getNodeParameter('resource', 0) as string;
-      const operation = this.getNodeParameter('operation', 0) as string;
+      const resource = this.getNodeParameter('resource', itemIndex) as string;
+      const operation = this.getNodeParameter('operation', itemIndex) as string;
 
       let endpoint = `/${resource}`;
       let method = 'GET';
@@ -300,7 +300,7 @@ export class Chatwork implements INodeType {
 
       if (resource === 'rooms') {
         if (operation !== 'get') {
-          const roomId = this.getNodeParameter('roomId', 0) as string;
+          const roomId = this.getNodeParameter('roomId', itemIndex) as string;
           if (typeof roomId === 'number' && roomId !== 0) {
             endpoint += `/${roomId}`;
 
@@ -308,7 +308,7 @@ export class Chatwork implements INodeType {
               case 'sendMessage':
                 method = 'POST';
                 endpoint += '/messages';
-                const message = this.getNodeParameter('message', 0) as string;
+                const message = this.getNodeParameter('message', itemIndex) as string;
                 body = { body: message };
                 break;
               case 'getMembers':
