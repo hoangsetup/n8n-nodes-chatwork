@@ -267,7 +267,7 @@ export class Chatwork implements INodeType {
         default: '',
         displayOptions: {
           show: {
-            resource: ['room'],
+            resource: ['rooms'],
             operation: [
               'sendMessage',
             ],
