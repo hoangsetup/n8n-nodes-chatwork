@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-chatwork",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "n8n",
     "nodemation",
@@ -36,7 +36,9 @@
     "tslint": "tslint -p tsconfig.json -c tslint.json",
     "watch": "tsc --watch",
     "n8n": "n8n start",
-    "n8n:watch": "nodemon --exec npm run n8n"
+    "n8n:watch": "nodemon --exec npm run n8n",
+    "prerelease": "npm run build",
+    "release": "npm publish"
   },
   "files": [
     "dist"
