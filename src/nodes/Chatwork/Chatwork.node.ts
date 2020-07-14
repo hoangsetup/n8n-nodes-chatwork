@@ -39,6 +39,7 @@ export class Chatwork implements INodeType {
         name: 'resource',
         type: 'options',
         required: true,
+        noDataExpression: true,
         options: [
           {
             name: 'Me',
@@ -124,6 +125,7 @@ export class Chatwork implements INodeType {
         name: 'operation',
         type: 'options',
         required: true,
+        noDataExpression: true,
         displayOptions: {
           show: {
             resource: [
@@ -149,6 +151,7 @@ export class Chatwork implements INodeType {
         name: 'operation',
         type: 'options',
         required: true,
+        noDataExpression: true,
         displayOptions: {
           show: {
             resource: [
@@ -179,6 +182,7 @@ export class Chatwork implements INodeType {
         name: 'operation',
         type: 'options',
         required: true,
+        noDataExpression: true,
         displayOptions: {
           show: {
             resource: [
@@ -204,6 +208,7 @@ export class Chatwork implements INodeType {
         name: 'operation',
         type: 'options',
         required: true,
+        noDataExpression: true,
         displayOptions: {
           show: {
             resource: [
@@ -285,11 +290,11 @@ export class Chatwork implements INodeType {
 
     const returnItems: INodeExecutionData[] = [];
 
+    const resource = this.getNodeParameter('resource', 0) as string;
+    const operation = this.getNodeParameter('operation', 0) as string;
+
     // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-      const resource = this.getNodeParameter('resource', itemIndex) as string;
-      const operation = this.getNodeParameter('operation', itemIndex) as string;
-
       let endpoint = `/${resource}`;
       let method = 'GET';
       let body = null;
@@ -300,7 +305,8 @@ export class Chatwork implements INodeType {
 
       if (resource === 'rooms') {
         if (operation !== 'get') {
-          const roomId = this.getNodeParameter('roomId', itemIndex) as string;
+          const defaultRoomId = this.getNodeParameter('roomId', 0) as string
+          const roomId = this.getNodeParameter('roomId', itemIndex) as string || defaultRoomId;
           if (typeof roomId === 'number' && roomId !== 0) {
             endpoint += `/${roomId}`;
 
