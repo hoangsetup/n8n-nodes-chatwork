@@ -4,4 +4,6 @@ node_modules
 # Temp file of n8n-node-dev process
 tmp-*
 
-dist/
+dist
+
+.DS_Store
