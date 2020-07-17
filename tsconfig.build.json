@@ -3,5 +3,9 @@
   "compilerOptions": {
     "removeComments": true,
     "sourceMap": false
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "src/**/*.spec.ts"
+  ]
 }

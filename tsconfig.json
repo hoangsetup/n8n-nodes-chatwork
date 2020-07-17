@@ -4,7 +4,8 @@
 			"es2017"
 		],
 		"types": [
-			"node"
+			"node",
+			"jest"
 		],
 		"module": "commonjs",
 		"noImplicitAny": true,
@@ -21,6 +22,6 @@
 		"src/**/*.ts"
 	],
 	"exclude": [
-		"**/*.spec.ts"
+		"node_modules"
 	]
 }
