@@ -43,7 +43,8 @@
     "prerelease": "npm run build",
     "release": "npm publish",
     "test": "jest --passWithNoTests",
-    "test:coverage": "npm run test -- --coverage"
+    "test:coverage": "npm run test -- --coverage",
+    "lint": "tslint --project ."
   },
   "files": [
     "dist"
