@@ -335,7 +335,7 @@ export class Chatwork implements INodeType {
         // flatten response
         returnItems.push(...response);
       } else {
-        returnItems.push({ json: response});
+        returnItems.push({ json: response });
       }
     }
 
