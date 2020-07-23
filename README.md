@@ -1,3 +1,5 @@
+![CI](https://github.com/hoangsetup/n8n-nodes-chatwork/workflows/CI/badge.svg)
+
 # n8n-nodes-chatwork
 Provides n8n nodes to retrieve data from Chatwork API.
 
