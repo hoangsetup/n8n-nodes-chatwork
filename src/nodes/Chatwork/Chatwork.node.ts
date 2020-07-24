@@ -324,7 +324,7 @@ export class Chatwork implements INodeType {
                 endpoint += '/messages?force=1';
                 break;
               default:
-                break
+                throw new Error(`${operation} is not supported.`)
             }
           }
         }
