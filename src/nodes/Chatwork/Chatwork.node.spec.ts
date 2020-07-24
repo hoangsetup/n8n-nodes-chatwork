@@ -213,6 +213,20 @@ describe('Chatwork', () => {
       expect(result).toEqual([[{ json: apiResponse }]]);
     });
 
+    test('should throw exception when operation is not supported', async () => {
+      getNodeParameterMock.mockReturnValueOnce(Resources.rooms);
+      getNodeParameterMock.mockReturnValueOnce('not-supported-op');
+
+      const roomId = 1;
+
+      getNodeParameterMock.mockReturnValue(roomId);
+      getInputDataMock.mockReturnValue([{}]);
+
+      await expect(chatworkNode.execute.call(context as any)).rejects.toThrow(new Error('not-supported-op is not supported.'));
+
+      expect(chatworkApiRequestMock).not.toBeCalled();
+    });
+
     test('should use default roomId when roomId not found in a loop', async () => {
       getNodeParameterMock.mockReturnValueOnce(Resources.rooms);
       getNodeParameterMock.mockReturnValueOnce(Operations.sendMessage);
