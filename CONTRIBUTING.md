@@ -125,7 +125,7 @@ The list of Chatwork apis need to complete:
   - [x] `GET /my/status` - Get the number of: unread messages, unread To messages, and unfinished tasks.
   - [x] `GET /my/task` - Get the list of all unfinished tasks.
 - `/contacts` - Used to access the list of your contacts
-  - [ ] `GET /contacts` - Get the list of your contacts
+  - [x] `GET /contacts` - Get the list of your contacts
 - `/rooms` - Used to access information such as messages, members, files, and tasks associated to a specific conversation.
   - [x] `GET /rooms` - Get the list of all chats on your account
   - [ ] `POST /rooms` - Create a new group chat

@@ -90,6 +90,13 @@ describe('Chatwork', () => {
         expectationRequest: ['GET', '/rooms', null],
         expectationResult: [[{ json: { room_id: 123 } }]],
       },
+      {
+        resource: Resources.contacts,
+        operation: Operations.get,
+        response: [{ account_id: 123 }],
+        expectationRequest: ['GET', '/contacts', null],
+        expectationResult: [[{ json: { account_id: 123 } }]],
+      },
     ] as ITestCase01[])('should call request with expectation options (simple get only). Case %# %o', async ({
       resource,
       operation,
