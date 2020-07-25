@@ -223,7 +223,7 @@ export class Chatwork implements INodeType {
             description: 'Get the list of all chats on your account',
           },
           {
-            name: 'Get room detail',
+            name: 'Get detail',
             value: 'getDetail',
             description: 'Get chat name, icon, and Type (my, direct, or group)',
           },
@@ -322,6 +322,8 @@ export class Chatwork implements INodeType {
                 break;
               case 'getMessages':
                 endpoint += '/messages?force=1';
+                break;
+              case 'getDetail':
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
