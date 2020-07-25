@@ -19,6 +19,7 @@ enum Operations {
   sendMessage = 'sendMessage',
   getMembers = 'getMembers',
   getMessages = 'getMessages',
+  getDetail = 'getDetail',
 }
 
 interface ITestCase01 {
@@ -156,6 +157,14 @@ describe('Chatwork', () => {
         response: { message_id: '5' },
         expectationRequest: ['GET', '/rooms/1/messages?force=1', null],
         expectationResult: [[{ json: { message_id: '5' } }]],
+      },
+      {
+        resource: Resources.rooms,
+        operation: Operations.getDetail,
+        roomId: 1,
+        response: { room_id: 123 },
+        expectationRequest: ['GET', '/rooms/1', null],
+        expectationResult: [[{ json: { room_id: 123 } }]],
       },
     ] as ITestCase02[])('should call request with expectation options (get room resource). Case %# %o', async ({
       resource,
