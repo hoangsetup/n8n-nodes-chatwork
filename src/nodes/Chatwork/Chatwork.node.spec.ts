@@ -20,6 +20,7 @@ enum Operations {
   getMembers = 'getMembers',
   getMessages = 'getMessages',
   getDetail = 'getDetail',
+  updateInfo = 'updateInfo',
 }
 
 interface ITestCase01 {
@@ -226,6 +227,73 @@ describe('Chatwork', () => {
       expect(getMessageMock).toHaveBeenCalledWith('message', 0);
 
       expect(chatworkApiRequestMock).toHaveBeenCalledWith('POST', '/rooms/1/messages', body);
+      expect(result).toEqual([[{ json: apiResponse }]]);
+    });
+
+    test.each([
+      {
+        description: 'Description of the group chat',
+        name: 'Title of the group chat',
+        iconPreset: 'meeting',
+        expectationBody: {
+          description: 'Description of the group chat',
+          name: 'Title of the group chat',
+          icon_preset: 'meeting',
+        },
+      },
+      {
+        description: '',
+        name: 'Title of the group chat',
+        iconPreset: 'meeting',
+        expectationBody: {
+          name: 'Title of the group chat',
+          icon_preset: 'meeting',
+        },
+      },
+      {
+        description: 'Description of the group chat',
+        name: '',
+        iconPreset: 'meeting',
+        expectationBody: {
+          description: 'Description of the group chat',
+          icon_preset: 'meeting',
+        },
+      },
+    ])('should call update room info api with body when operation = updateInfo, %o', async ({
+      description,
+      name,
+      iconPreset,
+      expectationBody,
+    }) => {
+      const getResourceMock = getNodeParameterMock.mockReturnValueOnce(Resources.rooms);
+      const getOperationMock = getNodeParameterMock.mockReturnValueOnce(Operations.updateInfo);
+
+      const roomId = 1;
+
+      const getDefaultRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
+      const getRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
+
+      const getDescriptionMock = getNodeParameterMock.mockReturnValueOnce(description);
+      const getNameMock = getNodeParameterMock.mockReturnValueOnce(name);
+      const getIconMock = getNodeParameterMock.mockReturnValueOnce(iconPreset);
+
+      const apiResponse = { room_id: 1234 };
+
+      getInputDataMock.mockReturnValue([{}]);
+      chatworkApiRequestMock.mockResolvedValueOnce(apiResponse);
+
+      const result = await chatworkNode.execute.call(context as any);
+
+      expect(getResourceMock).toHaveBeenCalledWith('resource', 0);
+      expect(getOperationMock).toHaveBeenCalledWith('operation', 0);
+      expect(getDefaultRoomIdMock).toHaveBeenCalledWith('roomId', 0);
+      expect(getRoomIdMock).toHaveBeenCalledWith('roomId', 0);
+      expect(getDescriptionMock).toHaveBeenCalledWith('description', 0);
+      expect(getNameMock).toHaveBeenCalledWith('name', 0);
+      expect(getIconMock).toHaveBeenCalledWith('iconPreset', 0);
+
+
+      expect(chatworkApiRequestMock).toHaveBeenCalledWith('PUT', '/rooms/1', expectationBody);
       expect(result).toEqual([[{ json: apiResponse }]]);
     });
 
