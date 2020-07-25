@@ -228,6 +228,11 @@ export class Chatwork implements INodeType {
             description: 'Get chat name, icon, and Type (my, direct, or group)',
           },
           {
+            name: 'Update info',
+            value: 'updateInfo',
+            description: 'Change the title and icon type of the specified chat',
+          },
+          {
             name: 'Get members',
             value: 'getMembers',
             description: 'Get the list of all chat members associated with the specified chat ',
@@ -259,6 +264,7 @@ export class Chatwork implements INodeType {
               'sendMessage',
               'getMembers',
               'getMessages',
+              'updateInfo',
             ],
           },
         },
@@ -280,6 +286,73 @@ export class Chatwork implements INodeType {
         },
         placeholder: 'New message',
         description: 'Message body',
+      },
+      {
+        displayName: 'Chat description',
+        name: 'description',
+        type: 'string',
+        default: '',
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'updateInfo',
+            ],
+          },
+        },
+        placeholder: 'group chat description',
+        description: 'Description of the group chat',
+      },
+      {
+        displayName: 'Group chat name',
+        name: 'name',
+        type: 'string',
+        default: '',
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'updateInfo',
+            ],
+          },
+        },
+        placeholder: 'Website renewal project',
+        description: 'Title of the group chat',
+      },
+      {
+        displayName: 'Icon type',
+        name: 'iconPreset',
+        type: 'options',
+        default: 'group',
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'updateInfo',
+            ],
+          },
+        },
+        options: [
+          { 'name': 'Group', 'value': 'group' },
+          { 'name': 'Check', 'value': 'check' },
+          { 'name': 'Document', 'value': 'document' },
+          { 'name': 'Meeting', 'value': 'meeting' },
+          { 'name': 'Event', 'value': 'event' },
+          { 'name': 'Project', 'value': 'project' },
+          { 'name': 'Business', 'value': 'business' },
+          { 'name': 'Study', 'value': 'study' },
+          { 'name': 'Security', 'value': 'security' },
+          { 'name': 'Star', 'value': 'star' },
+          { 'name': 'Idea', 'value': 'idea' },
+          { 'name': 'Heart', 'value': 'heart' },
+          { 'name': 'Magcup', 'value': 'magcup' },
+          { 'name': 'Beer', 'value': 'beer' },
+          { 'name': 'Music', 'value': 'music' },
+          { 'name': 'Sports', 'value': 'sports' },
+          { 'name': 'Travel', 'value': 'travel' },
+        ],
+        placeholder: '',
+        description: 'Type of the group chat icon',
       },
     ],
   };
@@ -324,6 +397,21 @@ export class Chatwork implements INodeType {
                 endpoint += '/messages?force=1';
                 break;
               case 'getDetail':
+                break;
+              case 'updateInfo':
+                method = 'PUT';
+                const description = this.getNodeParameter('description', 0) as string;
+                const name = this.getNodeParameter('name', 0) as string;
+                const iconPreset = this.getNodeParameter('iconPreset', 0) as string;
+                body = {
+                  icon_preset: iconPreset,
+                } as unknown as { name?: string, description?: string, icon_preset: string };
+                if (description) {
+                  body.description = description;
+                }
+                if (name) {
+                  body.name = name;
+                }
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
