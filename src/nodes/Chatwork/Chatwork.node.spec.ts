@@ -22,6 +22,7 @@ enum Operations {
   getDetail = 'getDetail',
   updateInfo = 'updateInfo',
   getMessageDetail = 'getMessageDetail',
+  deleteMessage = 'deleteMessage',
 }
 
 interface ITestCase01 {
@@ -298,13 +299,30 @@ describe('Chatwork', () => {
       expect(result).toEqual([[{ json: apiResponse }]]);
     });
 
-    test('should call get info message api when operation = getMessageDetail', async () => {
+    test.each([
+      {
+        operation: Operations.getMessageDetail,
+        apiResponse: { message_id: '1234' },
+        expectationMethod: 'GET',
+        expectationBody: null,
+      },
+      {
+        operation: Operations.deleteMessage,
+        apiResponse: { message_id: '1234' },
+        expectationMethod: 'DELETE',
+        expectationBody: null,
+      },
+    ])('should call api for a special message %o', async ({
+      operation,
+      apiResponse,
+      expectationBody,
+      expectationMethod,
+    }) => {
       const getResourceMock = getNodeParameterMock.mockReturnValueOnce(Resources.rooms);
-      const getOperationMock = getNodeParameterMock.mockReturnValueOnce(Operations.getMessageDetail);
+      const getOperationMock = getNodeParameterMock.mockReturnValueOnce(operation);
 
       const roomId = 1;
       const messageId = 1234;
-      const apiResponse = { message_id: '1234' };
 
       const getDefaultRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
       const getRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
@@ -321,7 +339,7 @@ describe('Chatwork', () => {
       expect(getRoomIdMock).toHaveBeenCalledWith('roomId', 0);
       expect(getMessageIdMock).toHaveBeenCalledWith('messageId', 0);
 
-      expect(chatworkApiRequestMock).toHaveBeenCalledWith('GET', '/rooms/1/messages/1234', null);
+      expect(chatworkApiRequestMock).toHaveBeenCalledWith(expectationMethod, '/rooms/1/messages/1234', expectationBody);
       expect(result).toEqual([[{ json: apiResponse }]]);
     });
 
