@@ -252,6 +252,11 @@ export class Chatwork implements INodeType {
             value: 'getMessageDetail',
             description: 'Get information about the specified message',
           },
+          {
+            name: 'Delete message',
+            value: 'deleteMessage',
+            description: 'Delete the specified message',
+          },
         ],
         default: 'get',
       },
@@ -271,6 +276,7 @@ export class Chatwork implements INodeType {
               'getMessages',
               'updateInfo',
               'getMessageDetail',
+              'deleteMessage',
             ],
           },
         },
@@ -370,6 +376,7 @@ export class Chatwork implements INodeType {
             resource: ['rooms'],
             operation: [
               'getMessageDetail',
+              'deleteMessage',
             ],
           },
         },
@@ -393,6 +400,8 @@ export class Chatwork implements INodeType {
       let endpoint = `/${resource}`;
       let method = 'GET';
       let body = null;
+
+      let messageId: string;
 
       if (resource === 'my') {
         endpoint += `/${operation}`;
@@ -422,9 +431,9 @@ export class Chatwork implements INodeType {
                 break;
               case 'updateInfo':
                 method = 'PUT';
-                const description = this.getNodeParameter('description', 0) as string;
-                const name = this.getNodeParameter('name', 0) as string;
-                const iconPreset = this.getNodeParameter('iconPreset', 0) as string;
+                const description = this.getNodeParameter('description', itemIndex) as string;
+                const name = this.getNodeParameter('name', itemIndex) as string;
+                const iconPreset = this.getNodeParameter('iconPreset', itemIndex) as string;
                 body = {
                   icon_preset: iconPreset,
                 } as unknown as { name?: string, description?: string, icon_preset: string };
@@ -436,7 +445,12 @@ export class Chatwork implements INodeType {
                 }
                 break;
               case 'getMessageDetail':
-                const messageId = this.getNodeParameter('messageId', 0) as string;
+                messageId = this.getNodeParameter('messageId', itemIndex) as string;
+                endpoint += `/messages/${messageId}`;
+                break;
+              case 'deleteMessage':
+                messageId = this.getNodeParameter('messageId', itemIndex) as string;
+                method = 'DELETE';
                 endpoint += `/messages/${messageId}`;
                 break;
               default:
@@ -455,7 +469,7 @@ export class Chatwork implements INodeType {
       }
     }
 
-    if (returnItems.some((i) => i.json)) {
+    if (returnItems.some((i) => i.json !== undefined)) {
       return [returnItems];
     } else {
       return [this.helpers.returnJsonArray(returnItems)];
