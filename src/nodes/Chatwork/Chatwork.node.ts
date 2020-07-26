@@ -247,6 +247,11 @@ export class Chatwork implements INodeType {
             value: 'sendMessage',
             description: 'Add new message to the chat',
           },
+          {
+            name: 'Get message detail',
+            value: 'getMessageDetail',
+            description: 'Get information about the specified message',
+          },
         ],
         default: 'get',
       },
@@ -265,6 +270,7 @@ export class Chatwork implements INodeType {
               'getMembers',
               'getMessages',
               'updateInfo',
+              'getMessageDetail',
             ],
           },
         },
@@ -354,6 +360,22 @@ export class Chatwork implements INodeType {
         placeholder: '',
         description: 'Type of the group chat icon',
       },
+      {
+        displayName: 'Message ID',
+        name: 'messageId',
+        type: 'number',
+        default: 0,
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'getMessageDetail',
+            ],
+          },
+        },
+        placeholder: 'Message id',
+        description: 'Id of the special message',
+      },
     ],
   };
 
@@ -412,6 +434,10 @@ export class Chatwork implements INodeType {
                 if (name) {
                   body.name = name;
                 }
+                break;
+              case 'getMessageDetail':
+                const messageId = this.getNodeParameter('messageId', 0) as string;
+                endpoint += `/messages/${messageId}`;
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
