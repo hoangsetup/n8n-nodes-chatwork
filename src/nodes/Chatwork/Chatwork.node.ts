@@ -257,6 +257,11 @@ export class Chatwork implements INodeType {
             value: 'deleteMessage',
             description: 'Delete the specified message',
           },
+          {
+            name: 'Get tasks',
+            value: 'getRoomTasks',
+            description: 'Get the list of tasks associated with the specified chat',
+          },
         ],
         default: 'get',
       },
@@ -277,6 +282,7 @@ export class Chatwork implements INodeType {
               'updateInfo',
               'getMessageDetail',
               'deleteMessage',
+              'getRoomTasks',
             ],
           },
         },
@@ -452,6 +458,9 @@ export class Chatwork implements INodeType {
                 messageId = this.getNodeParameter('messageId', itemIndex) as string;
                 method = 'DELETE';
                 endpoint += `/messages/${messageId}`;
+                break;
+              case 'getRoomTasks':
+                endpoint += '/tasks';
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
