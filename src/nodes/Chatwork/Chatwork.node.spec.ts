@@ -23,6 +23,7 @@ enum Operations {
   updateInfo = 'updateInfo',
   getMessageDetail = 'getMessageDetail',
   deleteMessage = 'deleteMessage',
+  getRoomTasks = 'getRoomTasks',
 }
 
 interface ITestCase01 {
@@ -380,6 +381,42 @@ describe('Chatwork', () => {
 
       expect(chatworkApiRequestMock).toBeCalledTimes(2);
       expect(chatworkApiRequestMock).toHaveBeenCalledWith('POST', '/rooms/1/messages', body);
+    })
+
+    test('should call get tasks api when operation = "getRoomTasks"', async () => {
+      const apiResponse = [
+        {
+          'task_id': 3,
+          'account': {
+            'account_id': 101,
+            'name': 'Bob',
+            'avatar_image_url': 'https://example.com/abc.png',
+          },
+        },
+      ];
+      const getResourceMock = getNodeParameterMock.mockReturnValueOnce(Resources.rooms);
+      const getOperationMock = getNodeParameterMock.mockReturnValueOnce(Operations.getRoomTasks);
+
+      const roomId = 1;
+
+      const getDefaultRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
+      const getRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
+
+      getInputDataMock.mockReturnValue([{}]);
+      chatworkApiRequestMock.mockResolvedValueOnce(apiResponse);
+      returnJsonArrayMock.mockImplementationOnce((items: any[]) => {
+        return items.map((i) => ({ json: i }));
+      });
+
+      const result = await chatworkNode.execute.call(context as any);
+
+      expect(getResourceMock).toHaveBeenCalledWith('resource', 0);
+      expect(getOperationMock).toHaveBeenCalledWith('operation', 0);
+      expect(getDefaultRoomIdMock).toHaveBeenCalledWith('roomId', 0);
+      expect(getRoomIdMock).toHaveBeenCalledWith('roomId', 0);
+
+      expect(chatworkApiRequestMock).toHaveBeenCalledWith('GET', `/rooms/${roomId}/tasks`, null);
+      expect([[{ json: apiResponse[0] }]]).toEqual(result);
     })
   })
 });
