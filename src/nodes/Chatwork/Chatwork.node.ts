@@ -262,6 +262,11 @@ export class Chatwork implements INodeType {
             value: 'getRoomTasks',
             description: 'Get the list of tasks associated with the specified chat',
           },
+          {
+            name: 'Get task detail',
+            value: 'getRoomTaskDetail',
+            description: 'Get information about the specified task',
+          },
         ],
         default: 'get',
       },
@@ -283,6 +288,7 @@ export class Chatwork implements INodeType {
               'getMessageDetail',
               'deleteMessage',
               'getRoomTasks',
+              'getRoomTaskDetail',
             ],
           },
         },
@@ -389,6 +395,22 @@ export class Chatwork implements INodeType {
         placeholder: 'Message id',
         description: 'Id of the special message',
       },
+      {
+        displayName: 'Task ID',
+        name: 'taskId',
+        type: 'number',
+        default: 0,
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'getRoomTaskDetail',
+            ],
+          },
+        },
+        placeholder: 'Task id',
+        description: 'Id of the special task',
+      },
     ],
   };
 
@@ -461,6 +483,10 @@ export class Chatwork implements INodeType {
                 break;
               case 'getRoomTasks':
                 endpoint += '/tasks';
+                break;
+              case 'getRoomTaskDetail':
+                const taskId = this.getNodeParameter('taskId', itemIndex);
+                endpoint += `/tasks/${taskId}`;
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
