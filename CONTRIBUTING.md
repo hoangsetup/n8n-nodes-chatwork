@@ -129,17 +129,19 @@ The list of Chatwork apis need to complete:
 - `/rooms` - Used to access information such as messages, members, files, and tasks associated to a specific conversation.
   - [x] `GET /rooms` - Get the list of all chats on your account
   - [ ] `POST /rooms` - Create a new group chat
-  - [ ] `GET /rooms/{room_id}` - Get chat name, icon, and Type (my, direct, or group)
-  - [ ] `PUT /rooms/{room_id}` - Change the title and icon type of the specified chat
+  - [x] `GET /rooms/{room_id}` - Get chat name, icon, and Type (my, direct, or group)
+  - [x] `PUT /rooms/{room_id}` - Change the title and icon type of the specified chat
   - [ ] `DELETE /rooms/{room_id}` - Leave/Delete a group chat
-  - [ ] `GET /rooms/{room_id}/members` - Get the list of all chat members associated with the specified chat
+  - [x] `GET /rooms/{room_id}/members` - Get the list of all chat members associated with the specified chat
   - [ ] `PUT /rooms/{room_id}/members` - Change associated members of group chat at once
-  - [ ] `GET /rooms/{room_id}/messages` - Get all messages associated with the specified chat
+  - [x] `GET /rooms/{room_id}/messages` - Get all messages associated with the specified chat
   - [x] `POST /rooms/{room_id}/messages` - Add new message to the chat
-  - [ ] `GET /rooms/{room_id}/messages/{message_id}` - Get information about the specified message
-  - [ ] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
+  - [x] `GET /rooms/{room_id}/messages/{message_id}` - Get information about the specified message
+  - [ ] `PUT /rooms/{room_id}/messages/{message_id}` - Update the specified message
+  - [x] `DELETE /rooms/{room_id}/messages/{message_id}` - Delete the specified message
+  - [x] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
   - [ ] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
-  - [ ] `GET /rooms/{room_id}/tasks/{task_id}` - Get information about the specified task
+  - [x] `GET /rooms/{room_id}/tasks/{task_id}` - Get information about the specified task
   - [ ] `GET /rooms/{room_id}/files` - Get the list of files associated with the specified chat
   - [ ] `GET /rooms/{room_id}/files/{file_id}` - Get information about the specified file
 - `/incoming_requests` - You can access contact approval requests you received
