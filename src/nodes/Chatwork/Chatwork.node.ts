@@ -267,6 +267,11 @@ export class Chatwork implements INodeType {
             value: 'getRoomTaskDetail',
             description: 'Get information about the specified task',
           },
+          {
+            name: 'Add a new task to the chat',
+            value: 'createRoomTask',
+            description: 'Add a new task to the chat',
+          },
         ],
         default: 'get',
       },
@@ -289,6 +294,7 @@ export class Chatwork implements INodeType {
               'deleteMessage',
               'getRoomTasks',
               'getRoomTaskDetail',
+              'createRoomTask',
             ],
           },
         },
@@ -411,6 +417,57 @@ export class Chatwork implements INodeType {
         placeholder: 'Task id',
         description: 'Id of the special task',
       },
+      {
+        displayName: 'Task description',
+        name: 'body',
+        type: 'string',
+        default: '',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'createRoomTask',
+            ],
+          },
+        },
+        placeholder: 'Task description',
+        description: 'Task description',
+      },
+      {
+        displayName: 'Deadline',
+        name: 'limit',
+        type: 'dateTime',
+        required: false,
+        default: new Date().toISOString(),
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'createRoomTask',
+            ],
+          },
+        },
+        placeholder: 'Deadline',
+        description: 'When the task is due (Use Unix time as input)',
+      },
+      {
+        displayName: 'To',
+        name: 'toIds',
+        type: 'string',
+        required: true,
+        default: '',
+        displayOptions: {
+          show: {
+            resource: ['rooms'],
+            operation: [
+              'createRoomTask',
+            ],
+          },
+        },
+        placeholder: 'To',
+        description: 'Account ID of the person/people responsible to complete the task. If multiple, IDs must be separated by comma',
+      },
     ],
   };
 
@@ -487,6 +544,18 @@ export class Chatwork implements INodeType {
               case 'getRoomTaskDetail':
                 const taskId = this.getNodeParameter('taskId', itemIndex);
                 endpoint += `/tasks/${taskId}`;
+                break;
+              case 'createRoomTask':
+                const taskDes = this.getNodeParameter('body', itemIndex);
+                const limit = (new Date(this.getNodeParameter('limit', itemIndex) as string)).valueOf() / 1000;
+                const toIds = this.getNodeParameter('toIds', itemIndex);
+                body = {
+                  body: taskDes,
+                  limit,
+                  to_ids: toIds,
+                }
+                method = 'POST';
+                endpoint += '/tasks';
                 break;
               default:
                 throw new Error(`${operation} is not supported.`)
