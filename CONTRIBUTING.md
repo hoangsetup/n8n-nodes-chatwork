@@ -140,7 +140,7 @@ The list of Chatwork apis need to complete:
   - [ ] `PUT /rooms/{room_id}/messages/{message_id}` - Update the specified message
   - [x] `DELETE /rooms/{room_id}/messages/{message_id}` - Delete the specified message
   - [x] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
-  - [ ] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
+  - [x] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
   - [x] `GET /rooms/{room_id}/tasks/{task_id}` - Get information about the specified task
   - [ ] `GET /rooms/{room_id}/files` - Get the list of files associated with the specified chat
   - [ ] `GET /rooms/{room_id}/files/{file_id}` - Get information about the specified file
