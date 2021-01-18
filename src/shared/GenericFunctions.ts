@@ -1,9 +1,6 @@
+import { IExecuteFunctions, IHookFunctions } from 'n8n-workflow';
 import { OptionsWithUri } from 'request';
 
-import {
-  IExecuteFunctions,
-  IHookFunctions,
-} from 'n8n-core';
 import { BASE_URL, CREDENTIAL } from './Constants';
 
 export async function chatworkApiRequest(
