@@ -473,7 +473,7 @@ describe('Chatwork', () => {
 
       const roomId = 1;
       const taskDes = 'Buy milk'
-      const limit = '2020-11-08T05:16:37.000Z';
+      const limit = '2020-11-08T05:16:37.852Z';
       const toIds = '1,3,6';
 
       const getDefaultRoomIdMock = getNodeParameterMock.mockReturnValueOnce(roomId);
@@ -487,7 +487,7 @@ describe('Chatwork', () => {
 
       const expectationBody = {
         body: taskDes,
-        limit: new Date(limit).valueOf() / 1000,
+        limit: 1604812598,  // 2020-11-08T05:16:38.000Z
         to_ids: toIds,
       };
 

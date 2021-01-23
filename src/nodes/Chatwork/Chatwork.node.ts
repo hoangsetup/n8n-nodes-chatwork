@@ -548,7 +548,7 @@ export class Chatwork implements INodeType {
                 break;
               case 'createRoomTask':
                 const taskDes = this.getNodeParameter('body', itemIndex);
-                const limit = (new Date(this.getNodeParameter('limit', itemIndex) as string)).valueOf() / 1000;
+                const limit = Math.round((new Date(this.getNodeParameter('limit', itemIndex) as string)).valueOf() / 1000);
                 const toIds = this.getNodeParameter('toIds', itemIndex);
                 body = {
                   body: taskDes,
