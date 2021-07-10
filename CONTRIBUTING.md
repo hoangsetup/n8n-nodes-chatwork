@@ -37,8 +37,8 @@ If you want to change or extend `n8n-nodes-chatwork` you have to make sure that 
 
 ### Requirements
 
-- node >= v10.19.0
-- npm >= 6.14.4
+- node version >= 14.x
+- npm version >= 7.x
 
 ### Actual n8n-nodes-chatwork setup
 
