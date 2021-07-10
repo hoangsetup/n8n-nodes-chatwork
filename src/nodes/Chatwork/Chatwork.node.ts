@@ -17,8 +17,10 @@ import {
   MessageProperty,
   MyProperty,
   NameProperty,
+  ResourceOptionsValue,
   ResourceProperty,
   RoomIdProperty,
+  RoomOptionsValue,
   RoomProperty,
   TaskIdProperty,
   ToIdsProperty,
@@ -85,33 +87,33 @@ export class Chatwork implements INodeType {
         endpoint += `/${operation}`;
       }
 
-      if (resource === 'rooms') {
-        if (operation !== 'get') {
-          const defaultRoomId = this.getNodeParameter('roomId', 0) as string
-          const roomId = this.getNodeParameter('roomId', itemIndex) as string || defaultRoomId;
+      if (resource === ResourceOptionsValue.ROOMS) {
+        if (operation !== RoomOptionsValue.GET) {
+          const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0) as string
+          const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) as string || defaultRoomId;
           if (typeof roomId === 'number' && roomId !== 0) {
             endpoint += `/${roomId}`;
 
             switch (operation) {
-              case 'sendMessage':
+              case RoomOptionsValue.SEND_MESSAGE:
                 method = 'POST';
                 endpoint += '/messages';
-                const message = this.getNodeParameter('message', itemIndex) as string;
+                const message = this.getNodeParameter(MessageProperty.name, itemIndex) as string;
                 body = { body: message };
                 break;
-              case 'getMembers':
+              case RoomOptionsValue.GET_MEMBERS:
                 endpoint += '/members';
                 break;
-              case 'getMessages':
+              case RoomOptionsValue.GET_MESSAGES:
                 endpoint += '/messages?force=1';
                 break;
-              case 'getDetail':
+              case RoomOptionsValue.GET_DETAIL:
                 break;
-              case 'updateInfo':
+              case RoomOptionsValue.UPDATE_INFO:
                 method = 'PUT';
-                const description = this.getNodeParameter('description', itemIndex) as string;
-                const name = this.getNodeParameter('name', itemIndex) as string;
-                const iconPreset = this.getNodeParameter('iconPreset', itemIndex) as string;
+                const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;
+                const name = this.getNodeParameter(NameProperty.name, itemIndex) as string;
+                const iconPreset = this.getNodeParameter(IconPresetProperty.name, itemIndex) as string;
                 body = {
                   icon_preset: iconPreset,
                 } as unknown as { name?: string, description?: string, icon_preset: string };
@@ -122,26 +124,28 @@ export class Chatwork implements INodeType {
                   body.name = name;
                 }
                 break;
-              case 'getMessageDetail':
-                messageId = this.getNodeParameter('messageId', itemIndex) as string;
+              case RoomOptionsValue.GET_MESSAGE_DETAIL:
+                messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
                 endpoint += `/messages/${messageId}`;
                 break;
-              case 'deleteMessage':
-                messageId = this.getNodeParameter('messageId', itemIndex) as string;
+              case RoomOptionsValue.DELETE_MESSAGE:
+                messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
                 method = 'DELETE';
                 endpoint += `/messages/${messageId}`;
                 break;
-              case 'getRoomTasks':
+              case RoomOptionsValue.GET_ROOM_TASKS:
                 endpoint += '/tasks';
                 break;
-              case 'getRoomTaskDetail':
-                const taskId = this.getNodeParameter('taskId', itemIndex);
+              case RoomOptionsValue.GET_ROOM_TASK_DETAIL:
+                const taskId = this.getNodeParameter(TaskIdProperty.name, itemIndex);
                 endpoint += `/tasks/${taskId}`;
                 break;
-              case 'createRoomTask':
-                const taskDes = this.getNodeParameter('body', itemIndex);
-                const limit = Math.round((new Date(this.getNodeParameter('limit', itemIndex) as string)).valueOf() / 1000);
-                const toIds = this.getNodeParameter('toIds', itemIndex);
+              case RoomOptionsValue.CREATE_ROOM_TASK:
+                const taskDes = this.getNodeParameter(BodyProperty.name, itemIndex);
+                const limit = Math.round(
+                  (new Date(this.getNodeParameter(LimitProperty.name, itemIndex) as string)).valueOf() / 1000,
+                );
+                const toIds = this.getNodeParameter(ToIdsProperty.name, itemIndex);
                 body = {
                   body: taskDes,
                   limit,

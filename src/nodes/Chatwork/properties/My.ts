@@ -1,6 +1,11 @@
 import { INodeProperties } from 'n8n-workflow';
 import { ResourceOptionsValue } from './Resource';
 
+export enum MyOptionsValue {
+  STATUS = 'status',
+  TASKS = 'tasks',
+}
+
 export const MyProperty: INodeProperties = {
   displayName: 'Operation',
   name: 'operation',
@@ -17,14 +22,14 @@ export const MyProperty: INodeProperties = {
   options: [
     {
       name: 'Get status',
-      value: 'status',
+      value: MyOptionsValue.STATUS,
       description: 'Get the number of: unread messages, unread To messages, and unfinished tasks',
     },
     {
       name: 'Get tasks',
-      value: 'tasks',
+      value: MyOptionsValue.TASKS,
       description: 'Get the list of all unfinished tasks',
     },
   ],
-  default: 'status',
+  default: MyOptionsValue.STATUS,
 };
