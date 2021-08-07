@@ -1,5 +1,6 @@
 node_modules
 .vscode/settings.json
+.idea
 
 # Temp file of n8n-node-dev process
 tmp-*
