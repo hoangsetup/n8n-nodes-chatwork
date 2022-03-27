@@ -57,7 +57,7 @@ describe('Chatwork', () => {
       getNodeParameter: getNodeParameterMock,
       helpers: {
         returnJsonArray: returnJsonArrayMock,
-      },
+      } as any,
     };
   })
 
