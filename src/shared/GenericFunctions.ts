@@ -20,7 +20,7 @@ export async function chatworkApiRequest(
   };
 
   try {
-    const credentials = this.getCredentials(CREDENTIAL.TYPE);
+    const credentials = await this.getCredentials(CREDENTIAL.TYPE);
     if (credentials === undefined) {
       throw new Error('No credentials got returned!');
     }
