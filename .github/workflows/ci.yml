@@ -28,23 +28,12 @@ jobs:
       run: |
         npm install
         npm run lint
-        npm run test:coverage
+        npm run test
         npm run build
-    - if: github.event_name == 'pull_request'
-      name: Create github-action report
-      uses: romeovs/lcov-reporter-action@v0.2.16
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ./coverage/lcov.info
     - if: github.event_name == 'push'
       name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dist
         path: dist
-    - name: Archive code coverage results
-      uses: actions/upload-artifact@v2
-      with:
-        name: code-coverage-report
-        path: coverage
-    
+
