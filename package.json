@@ -19,17 +19,17 @@
   "description": "Provides n8n nodes to retrieve data from Chatwork API.",
   "main": "index.js",
   "devDependencies": {
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^27.4.1",
     "@types/request": "^2.48.5",
     "@types/request-promise-native": "^1.0.17",
     "gulp": "^4.0.2",
-    "jest": "^26.1.0",
-    "n8n": "^0.156.0",
-    "n8n-workflow": "0.63.0",
+    "jest": "^27.5.1",
+    "n8n": "^0.169.0",
+    "n8n-workflow": "^0.63.0",
     "nodemon": "^2.0.4",
-    "ts-jest": "^26.1.2",
+    "ts-jest": "^27.1.4",
     "tslint": "^6.1.2",
-    "typescript": "^3.9.6"
+    "typescript": "^4.6.3"
   },
   "scripts": {
     "prebuild": "rm -rf dist",

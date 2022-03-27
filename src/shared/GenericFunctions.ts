@@ -32,7 +32,7 @@ export async function chatworkApiRequest(
       options.form = body;
     }
     return await this.helpers.request(options);
-  } catch (error) {
+  } catch (error: any) {
     if (error.statusCode === 401) {
       // Return a clear error
       throw new Error('The Chatwork credentials are not valid!');
