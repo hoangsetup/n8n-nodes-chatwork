@@ -25,7 +25,7 @@
     "@types/request-promise-native": "^1.0.17",
     "gulp": "^4.0.2",
     "jest": "^27.5.1",
-    "n8n": "^0.216.1",
+    "n8n": "^1.0.1",
     "n8n-workflow": "^0.92.0",
     "nodemon": "^2.0.4",
     "ts-jest": "^27.1.4",
