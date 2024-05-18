@@ -1,5 +1,6 @@
 import {
   IExecuteFunctions,
+  IHttpRequestMethods,
   INodeExecutionData,
   INodeType,
   INodeTypeDescription,
@@ -78,7 +79,7 @@ export class Chatwork implements INodeType {
     // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
       let endpoint = `/${resource}`;
-      let method = 'GET';
+      let method: IHttpRequestMethods = 'GET';
       let body = null;
 
       let messageId: string;
@@ -89,8 +90,8 @@ export class Chatwork implements INodeType {
 
       if (resource === ResourceOptionsValue.ROOMS) {
         if (operation !== RoomOptionsValue.GET) {
-          const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0) as string
-          const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) as string || defaultRoomId;
+          const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0);
+          const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) || defaultRoomId;
           if (typeof roomId === 'number' && roomId !== 0) {
             endpoint += `/${roomId}`;
 

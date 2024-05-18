@@ -1,16 +1,13 @@
-import { IExecuteFunctions, IHookFunctions } from 'n8n-workflow';
-import { OptionsWithUri } from 'request';
-
+import { IDataObject, IExecuteFunctions, IHookFunctions, IHttpRequestMethods, IRequestOptions } from 'n8n-workflow';
 import { BASE_URL, CREDENTIAL } from './Constants';
 
 export async function chatworkApiRequest(
   this: IHookFunctions | IExecuteFunctions,
-  method: string,
+  method: IHttpRequestMethods,
   endpoint: string,
   body: object | null = null,
-  query?: object,
-): Promise<any> {
-  const options: OptionsWithUri = {
+): Promise<IDataObject> {
+  const options: IRequestOptions = {
     method,
     headers: {
       'User-Agent': 'n8n',
@@ -21,9 +18,6 @@ export async function chatworkApiRequest(
 
   try {
     const credentials = await this.getCredentials(CREDENTIAL.TYPE);
-    if (credentials === undefined) {
-      throw new Error('No credentials got returned!');
-    }
 
     options.uri = `${BASE_URL}${endpoint}`;
     options.headers!['X-ChatWorkToken'] = credentials[CREDENTIAL.PROPERTY_NAME];

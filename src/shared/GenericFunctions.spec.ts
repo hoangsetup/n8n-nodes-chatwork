@@ -1,4 +1,4 @@
-import { ICredentialDataDecryptedObject, IExecuteFunctions } from 'n8n-workflow'
+import { ICredentialDataDecryptedObject, IExecuteFunctions, IHttpRequestMethods } from 'n8n-workflow';
 import { BASE_URL, CREDENTIAL } from './Constants';
 import { chatworkApiRequest } from './GenericFunctions';
 import mocked = jest.mocked;
@@ -25,7 +25,7 @@ describe('GenericFunction', () => {
 
     it.each([
       {
-        method: 'GET',
+        method: 'GET' as IHttpRequestMethods,
         endpoint: '/rooms',
         body: undefined,
         expectation: {
@@ -34,7 +34,7 @@ describe('GenericFunction', () => {
         },
       },
       {
-        method: 'POST',
+        method: 'POST' as IHttpRequestMethods,
         endpoint: '/rooms',
         body: { name: 'test' },
         expectation: {
@@ -57,19 +57,10 @@ describe('GenericFunction', () => {
       });
     });
 
-    it('should throw error when chatwork credential is not set', async () => {
-      mocked(context.getCredentials).mockResolvedValue(undefined);
-
-      const promise = chatworkApiRequest.call(context, '', '');
-
-      await expect(promise).rejects.toThrow(new Error('No credentials got returned!'));
-      expect(context.helpers.request).not.toHaveBeenCalled();
-    });
-
     it('should throw error when chatwork credential is valid', async () => {
       mocked(context.helpers.request).mockRejectedValue({ statusCode: 401 });
 
-      const promise = chatworkApiRequest.call(context, '', '');
+      const promise = chatworkApiRequest.call(context, 'GET', '');
 
       await expect(promise).rejects.toThrow(new Error('The Chatwork credentials are not valid!'));
     });
@@ -85,7 +76,7 @@ describe('GenericFunction', () => {
         },
       });
 
-      const promise = chatworkApiRequest.call(context, '', '');
+      const promise = chatworkApiRequest.call(context, 'GET', '');
 
       await expect(promise).rejects.toThrow(new Error('Chatwork error response [400]: error'));
     });
@@ -94,7 +85,7 @@ describe('GenericFunction', () => {
       const error = new Error('Network error!');
       mocked(context.helpers.request).mockRejectedValue(error);
 
-      const promise = chatworkApiRequest.call(context, '', '');
+      const promise = chatworkApiRequest.call(context, 'GET', '');
 
       await expect(promise).rejects.toThrow(error);
     });

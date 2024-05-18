@@ -73,12 +73,15 @@ Now that everything the project requires to run is installed the project can be 
 5. Symlink the package folder
 
     ```sh
+    cp package.* ./dist
+    cd dist
     npm link
     ```
 
 6. Create symbolic link
 
     ```sh
+    cd ~./n8n/custom
     npm link n8n-nodes-chatwork
     ```
 
