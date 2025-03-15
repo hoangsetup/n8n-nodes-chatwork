@@ -4,6 +4,7 @@ import {
   INodeExecutionData,
   INodeType,
   INodeTypeDescription,
+  NodeConnectionType,
 } from 'n8n-workflow';
 
 import { chatworkApiRequest } from '../../shared/GenericFunctions';
@@ -39,8 +40,8 @@ export class Chatwork implements INodeType {
       name: 'Chatwork',
       color: '#EF3646',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: [NodeConnectionType.Main],
+    outputs: [NodeConnectionType.Main],
     credentials: [
       {
         name: 'chatworkApi',

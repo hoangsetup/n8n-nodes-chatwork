@@ -85,6 +85,12 @@ Now that everything the project requires to run is installed the project can be 
     npm link n8n-nodes-chatwork
     ```
 
+7. Install n8n globally
+
+    ```
+    npm install -g n8n
+    ```
+
 ### Start
 
 ```sh
