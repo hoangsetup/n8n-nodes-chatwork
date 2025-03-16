@@ -71,14 +71,11 @@ export class Chatwork implements INodeType {
 
   async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
     const items = this.getInputData();
-
     const returnItems: INodeExecutionData[] = [];
-
-    const resource = this.getNodeParameter('resource', 0) as string;
-    const operation = this.getNodeParameter('operation', 0) as string;
 
     // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+      const resource = this.getNodeParameter('resource', itemIndex) as string;
       let endpoint = `/${resource}`;
       let method: IHttpRequestMethods = 'GET';
       let body = null;
@@ -86,13 +83,16 @@ export class Chatwork implements INodeType {
       let messageId: string;
 
       if (resource === 'my') {
+        const operation = this.getNodeParameter('operation', itemIndex);
         endpoint += `/${operation}`;
       }
 
       if (resource === ResourceOptionsValue.ROOMS) {
+        const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0);
+        const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) || defaultRoomId;
+        const operation = this.getNodeParameter('operation', itemIndex);
+
         if (operation !== RoomOptionsValue.GET) {
-          const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0);
-          const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) || defaultRoomId;
           if (typeof roomId === 'number' && roomId !== 0) {
             endpoint += `/${roomId}`;
 

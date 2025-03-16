@@ -48,8 +48,7 @@
     "n8n:watch": "nodemon --exec npm run n8n",
     "prerelease": "npm run build",
     "release": "npm publish",
-    "test": "jest --passWithNoTests",
-    "test:coverage": "npm run test -- --coverage"
+    "test": "jest"
   },
   "files": [
     "dist"
