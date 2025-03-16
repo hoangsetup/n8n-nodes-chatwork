@@ -15,38 +15,47 @@
     "url": "git+https://github.com/hoangsetup/n8n-nodes-chatwork.git"
   },
   "issue": "https://github.com/hoangsetup/n8n-nodes-chatwork/issues",
-  "author": "hoangdv <hoang.dv@outlook.com>",
-  "license": "GPL-3.0",
+  "author": {
+    "name": "hoangdv",
+    "email": "hoang.dv@outlook.com"
+  },
+  "license": "MIT",
   "description": "Provides n8n nodes to retrieve data from Chatwork API.",
   "main": "index.js",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
+    "@types/eslint": "^9.6.1",
     "@types/jest": "^29.5.12",
+    "eslint": "^9.22.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.3",
     "gulp": "^4.0.2",
     "jest": "^29.7.0",
     "n8n-workflow": "^1.70.0",
     "nodemon": "^3.1.0",
     "ts-jest": "^29.1.2",
     "tslint": "^6.1.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.26.1"
   },
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "npx tsc -b tsconfig.build.json && gulp",
     "dev": "npm run watch & npm run n8n:watch",
-    "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "eslint .",
     "watch": "tsc --watch",
     "n8n": "n8n start",
     "n8n:watch": "nodemon --exec npm run n8n",
     "prerelease": "npm run build",
     "release": "npm publish",
     "test": "jest --passWithNoTests",
-    "test:coverage": "npm run test -- --coverage",
-    "lint": "tslint --project ."
+    "test:coverage": "npm run test -- --coverage"
   },
   "files": [
     "dist"
   ],
   "n8n": {
+    "n8nNodesApiVersion": 1,
     "credentials": [
       "dist/credentials/Chatwork.credentials.js"
     ],

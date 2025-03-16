@@ -97,12 +97,13 @@ export class Chatwork implements INodeType {
             endpoint += `/${roomId}`;
 
             switch (operation) {
-              case RoomOptionsValue.SEND_MESSAGE:
+              case RoomOptionsValue.SEND_MESSAGE: {
                 method = 'POST';
                 endpoint += '/messages';
                 const message = this.getNodeParameter(MessageProperty.name, itemIndex) as string;
                 body = { body: message };
                 break;
+              }
               case RoomOptionsValue.GET_MEMBERS:
                 endpoint += '/members';
                 break;
@@ -111,7 +112,7 @@ export class Chatwork implements INodeType {
                 break;
               case RoomOptionsValue.GET_DETAIL:
                 break;
-              case RoomOptionsValue.UPDATE_INFO:
+              case RoomOptionsValue.UPDATE_INFO: {
                 method = 'PUT';
                 const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;
                 const name = this.getNodeParameter(NameProperty.name, itemIndex) as string;
@@ -126,6 +127,7 @@ export class Chatwork implements INodeType {
                   body.name = name;
                 }
                 break;
+              }
               case RoomOptionsValue.GET_MESSAGE_DETAIL:
                 messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
                 endpoint += `/messages/${messageId}`;
@@ -138,11 +140,12 @@ export class Chatwork implements INodeType {
               case RoomOptionsValue.GET_ROOM_TASKS:
                 endpoint += '/tasks';
                 break;
-              case RoomOptionsValue.GET_ROOM_TASK_DETAIL:
+              case RoomOptionsValue.GET_ROOM_TASK_DETAIL: {
                 const taskId = this.getNodeParameter(TaskIdProperty.name, itemIndex);
                 endpoint += `/tasks/${taskId}`;
                 break;
-              case RoomOptionsValue.CREATE_ROOM_TASK:
+              }
+              case RoomOptionsValue.CREATE_ROOM_TASK: {
                 const taskDes = this.getNodeParameter(BodyProperty.name, itemIndex);
                 const limit = Math.round(
                   (new Date(this.getNodeParameter(LimitProperty.name, itemIndex) as string)).valueOf() / 1000,
@@ -152,12 +155,13 @@ export class Chatwork implements INodeType {
                   body: taskDes,
                   limit,
                   to_ids: toIds,
-                }
+                };
                 method = 'POST';
                 endpoint += '/tasks';
                 break;
+              }
               default:
-                throw new Error(`${operation} is not supported.`)
+                throw new Error(`${operation} is not supported.`);
             }
           }
         }
@@ -166,7 +170,7 @@ export class Chatwork implements INodeType {
       const response = await chatworkApiRequest.call(this, method, endpoint, body);
       if (Array.isArray(response)) {
         // flatten response
-        returnItems.push(...response);
+        returnItems.push(...response as INodeExecutionData[]);
       } else {
         returnItems.push({ json: response });
       }

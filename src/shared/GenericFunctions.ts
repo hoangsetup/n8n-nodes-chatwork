@@ -6,7 +6,7 @@ export async function chatworkApiRequest(
   method: IHttpRequestMethods,
   endpoint: string,
   body: object | null = null,
-): Promise<IDataObject> {
+): Promise<IDataObject | IDataObject[]> {
   const options: IRequestOptions = {
     method,
     headers: {
@@ -26,15 +26,16 @@ export async function chatworkApiRequest(
       options.form = body;
     }
     return await this.helpers.request(options);
-  } catch (error: any) {
-    if (error.statusCode === 401) {
+  } catch (error) {
+    const httpError = error as Partial<{ statusCode: number; response: { body: { message: string } } }>;
+    if (httpError.statusCode === 401) {
       // Return a clear error
       throw new Error('The Chatwork credentials are not valid!');
     }
 
-    if (error.response && error.response.body && error.response.body.message) {
+    if (httpError.response && httpError.response.body && httpError.response.body.message) {
       // Try to return the error prettier
-      throw new Error(`Chatwork error response [${error.statusCode}]: ${error.response.body.message}`);
+      throw new Error(`Chatwork error response [${httpError.statusCode}]: ${httpError.response.body.message}`);
     }
 
     // If that data does not exist for some reason return the actual error
