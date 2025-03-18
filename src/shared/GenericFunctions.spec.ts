@@ -1,7 +1,6 @@
 import { ICredentialDataDecryptedObject, IExecuteFunctions, IHttpRequestMethods } from 'n8n-workflow';
 import { BASE_URL, CREDENTIAL } from './Constants';
 import { chatworkApiRequest } from './GenericFunctions';
-import mocked = jest.mocked;
 
 describe('GenericFunction', () => {
   describe('chatworkApiRequest', () => {
@@ -10,22 +9,31 @@ describe('GenericFunction', () => {
       [CREDENTIAL.PROPERTY_NAME]: apiKey,
     };
 
-    let context: IExecuteFunctions;
+    let context: jest.MockedObjectDeep<IExecuteFunctions>;
 
     beforeEach(() => {
       context = {
-        getCredentials: jest.fn() as unknown,
+        getCredentials: jest.fn(),
         helpers: {
           request: jest.fn(),
-        } as unknown,
-      } as IExecuteFunctions;
+        },
+      } as jest.MockedObjectDeep<IExecuteFunctions>;
 
-      mocked(context.getCredentials).mockResolvedValue(credentials);
+      context.getCredentials.mockResolvedValue(credentials);
     });
 
-    it.each([
+    it.each<{
+      method: IHttpRequestMethods
+      endpoint: string;
+      body: Parameters<typeof chatworkApiRequest>[2],
+      expectation: {
+        method: IHttpRequestMethods;
+        uri: string;
+        form?: unknown;
+      };
+    }>([
       {
-        method: 'GET' as IHttpRequestMethods,
+        method: 'GET',
         endpoint: '/rooms',
         body: undefined,
         expectation: {
@@ -36,11 +44,11 @@ describe('GenericFunction', () => {
       {
         method: 'POST' as IHttpRequestMethods,
         endpoint: '/rooms',
-        body: { name: 'test' },
+        body: { body: 'Hello World!' },
         expectation: {
           method: 'POST',
           uri: `${BASE_URL}/rooms`,
-          form: { name: 'test' },
+          form: { body: 'Hello World!' },
         },
       },
     ])('should call request with expectation options %o', async ({ method, endpoint, body, expectation }) => {
@@ -58,7 +66,7 @@ describe('GenericFunction', () => {
     });
 
     it('should throw error when chatwork credential is valid', async () => {
-      mocked(context.helpers.request).mockRejectedValue({ statusCode: 401 });
+      context.helpers.request.mockRejectedValue({ statusCode: 401 });
 
       const promise = chatworkApiRequest.call(context, 'GET', '');
 
@@ -66,8 +74,8 @@ describe('GenericFunction', () => {
     });
 
     it('should throw error when chatwork api return error', async () => {
-      mocked(context.getCredentials).mockResolvedValue({});
-      mocked(context.helpers.request).mockRejectedValue({
+      context.getCredentials.mockResolvedValue({});
+      context.helpers.request.mockRejectedValue({
         statusCode: 400,
         response: {
           body: {
@@ -83,11 +91,11 @@ describe('GenericFunction', () => {
 
     it('should throw error when get internal error', async () => {
       const error = new Error('Network error!');
-      mocked(context.helpers.request).mockRejectedValue(error);
+      context.helpers.request.mockRejectedValue(error);
 
       const promise = chatworkApiRequest.call(context, 'GET', '');
 
       await expect(promise).rejects.toThrow(error);
     });
-  })
+  });
 });

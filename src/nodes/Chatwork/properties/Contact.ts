@@ -1,6 +1,10 @@
 import { INodeProperties } from 'n8n-workflow';
 import { ResourceOptionsValue } from './Resource';
 
+export enum ContactOptionsValue {
+  GET_ALL = 'getContacts',
+}
+
 export const ContactProperty: INodeProperties = {
   displayName: 'Operation',
   name: 'operation',
@@ -16,10 +20,10 @@ export const ContactProperty: INodeProperties = {
   },
   options: [
     {
-      name: 'Get',
-      value: 'get',
+      name: 'Get contacts',
+      value: ContactOptionsValue.GET_ALL,
       description: 'Get the list of your contacts',
     },
   ],
-  default: 'get',
+  default: ContactOptionsValue.GET_ALL,
 };

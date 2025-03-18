@@ -13,7 +13,7 @@ export const TaskIdProperty: INodeProperties = {
         ResourceOptionsValue.ROOMS,
       ],
       operation: [
-        RoomOptionsValue.GET_ROOM_TASK_DETAIL,
+        RoomOptionsValue.GET_TASK_DETAIL,
       ],
     },
   },

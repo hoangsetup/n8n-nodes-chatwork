@@ -1,11 +1,33 @@
-import { IDataObject, IExecuteFunctions, IHookFunctions, IHttpRequestMethods, IRequestOptions } from 'n8n-workflow';
+import {
+  IDataObject,
+  IExecuteFunctions,
+  IHookFunctions,
+  IHttpRequestMethods,
+  IRequestOptions,
+} from 'n8n-workflow';
 import { BASE_URL, CREDENTIAL } from './Constants';
+
+export interface ISendMessagePayload {
+  body: string;
+}
+
+export interface IUpdateRoomPayload {
+  icon_preset: string;
+  name?: string;
+  description?: string;
+}
+
+export interface ICreateRoomTaskPayload {
+  body: string;
+  limit: number;
+  to_ids: string;
+}
 
 export async function chatworkApiRequest(
   this: IHookFunctions | IExecuteFunctions,
   method: IHttpRequestMethods,
   endpoint: string,
-  body: object | null = null,
+  body?: ISendMessagePayload | IUpdateRoomPayload | ICreateRoomTaskPayload,
 ): Promise<IDataObject | IDataObject[]> {
   const options: IRequestOptions = {
     method,
@@ -41,5 +63,4 @@ export async function chatworkApiRequest(
     // If that data does not exist for some reason return the actual error
     throw error;
   }
-
 }

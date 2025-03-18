@@ -14,7 +14,7 @@ export const ToIdsProperty: INodeProperties = {
         ResourceOptionsValue.ROOMS,
       ],
       operation: [
-        RoomOptionsValue.CREATE_ROOM_TASK,
+        RoomOptionsValue.CREATE_TASK,
       ],
     },
   },

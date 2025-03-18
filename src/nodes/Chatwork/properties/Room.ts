@@ -2,7 +2,7 @@ import { INodeProperties } from 'n8n-workflow';
 import { ResourceOptionsValue } from './Resource';
 
 export enum RoomOptionsValue {
-  GET = 'get',
+  GET_ALL = 'getRooms',
   GET_DETAIL = 'getDetail',
   UPDATE_INFO = 'updateInfo',
   GET_MEMBERS = 'getMembers',
@@ -10,9 +10,9 @@ export enum RoomOptionsValue {
   SEND_MESSAGE = 'sendMessage',
   GET_MESSAGE_DETAIL = 'getMessageDetail',
   DELETE_MESSAGE = 'deleteMessage',
-  GET_ROOM_TASKS = 'getRoomTasks',
-  GET_ROOM_TASK_DETAIL = 'getRoomTaskDetail',
-  CREATE_ROOM_TASK = 'createRoomTask',
+  GET_TASKS = 'getTasks',
+  GET_TASK_DETAIL = 'getTaskDetail',
+  CREATE_TASK = 'createTask',
 }
 
 export const RoomProperty: INodeProperties = {
@@ -31,7 +31,7 @@ export const RoomProperty: INodeProperties = {
   options: [
     {
       name: 'Get rooms',
-      value: RoomOptionsValue.GET,
+      value: RoomOptionsValue.GET_ALL,
       description: 'Get the list of all chats on your account',
     },
     {
@@ -71,19 +71,19 @@ export const RoomProperty: INodeProperties = {
     },
     {
       name: 'Get tasks',
-      value: RoomOptionsValue.GET_ROOM_TASKS,
+      value: RoomOptionsValue.GET_TASKS,
       description: 'Get the list of tasks associated with the specified chat',
     },
     {
       name: 'Get task detail',
-      value: RoomOptionsValue.GET_ROOM_TASK_DETAIL,
+      value: RoomOptionsValue.GET_TASK_DETAIL,
       description: 'Get information about the specified task',
     },
     {
       name: 'Add a new task to the chat',
-      value: RoomOptionsValue.CREATE_ROOM_TASK,
+      value: RoomOptionsValue.CREATE_TASK,
       description: 'Add a new task to the chat',
     },
   ],
-  default: RoomOptionsValue.GET,
+  default: RoomOptionsValue.GET_ALL,
 };

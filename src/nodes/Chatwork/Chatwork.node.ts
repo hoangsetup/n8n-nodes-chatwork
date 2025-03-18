@@ -6,7 +6,6 @@ import {
   INodeTypeDescription,
   NodeConnectionType,
 } from 'n8n-workflow';
-
 import { chatworkApiRequest } from '../../shared/GenericFunctions';
 import {
   BodyProperty,
@@ -32,6 +31,7 @@ export class Chatwork implements INodeType {
   description: INodeTypeDescription = {
     displayName: 'Chatwork',
     name: 'chatwork',
+    subtitle: '={{$parameter["resource"].toTitleCase() + ": " + $parameter["operation"].toTitleCase()}}',
     icon: 'file:../../assets/chatwork.png',
     group: ['transform'],
     version: 1,
@@ -49,7 +49,6 @@ export class Chatwork implements INodeType {
       },
     ],
     properties: [
-      // Node properties which the user gets displayed and can change on the node
       ResourceProperty,
       MeProperty,
       MyProperty,
@@ -73,103 +72,100 @@ export class Chatwork implements INodeType {
     const items = this.getInputData();
     const returnItems: INodeExecutionData[] = [];
 
-    // tslint:disable-next-line: prefer-for-of
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-      const resource = this.getNodeParameter('resource', itemIndex) as string;
-      let endpoint = `/${resource}`;
       let method: IHttpRequestMethods = 'GET';
-      let body = null;
+      let endpoint = '';
+      let body: Parameters<typeof chatworkApiRequest>[2];
+      const resource = this.getNodeParameter('resource', itemIndex) as ResourceOptionsValue;
 
-      let messageId: string;
-
-      if (resource === 'my') {
+      if (resource === ResourceOptionsValue.ME) {
+        endpoint += '/me';
+      } else if (resource === ResourceOptionsValue.CONTACTS) {
+        endpoint += '/contacts';
+      } else if (resource === ResourceOptionsValue.MY) {
         const operation = this.getNodeParameter('operation', itemIndex);
-        endpoint += `/${operation}`;
-      }
+        endpoint += `/my/${operation}`;
+      } else if (resource === ResourceOptionsValue.ROOMS) {
+        endpoint += '/rooms';
+        const operation = this.getNodeParameter('operation', itemIndex) as RoomOptionsValue;
 
-      if (resource === ResourceOptionsValue.ROOMS) {
-        const defaultRoomId = this.getNodeParameter(RoomIdProperty.name, 0);
-        const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) || defaultRoomId;
-        const operation = this.getNodeParameter('operation', itemIndex);
+        if (operation !== RoomOptionsValue.GET_ALL) {
+          const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) as number;
+          endpoint += `/${roomId}`;
+        }
 
-        if (operation !== RoomOptionsValue.GET) {
-          if (typeof roomId === 'number' && roomId !== 0) {
-            endpoint += `/${roomId}`;
-
-            switch (operation) {
-              case RoomOptionsValue.SEND_MESSAGE: {
-                method = 'POST';
-                endpoint += '/messages';
-                const message = this.getNodeParameter(MessageProperty.name, itemIndex) as string;
-                body = { body: message };
-                break;
-              }
-              case RoomOptionsValue.GET_MEMBERS:
-                endpoint += '/members';
-                break;
-              case RoomOptionsValue.GET_MESSAGES:
-                endpoint += '/messages?force=1';
-                break;
-              case RoomOptionsValue.GET_DETAIL:
-                break;
-              case RoomOptionsValue.UPDATE_INFO: {
-                method = 'PUT';
-                const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;
-                const name = this.getNodeParameter(NameProperty.name, itemIndex) as string;
-                const iconPreset = this.getNodeParameter(IconPresetProperty.name, itemIndex) as string;
-                body = {
-                  icon_preset: iconPreset,
-                } as unknown as { name?: string, description?: string, icon_preset: string };
-                if (description) {
-                  body.description = description;
-                }
-                if (name) {
-                  body.name = name;
-                }
-                break;
-              }
-              case RoomOptionsValue.GET_MESSAGE_DETAIL:
-                messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
-                endpoint += `/messages/${messageId}`;
-                break;
-              case RoomOptionsValue.DELETE_MESSAGE:
-                messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
-                method = 'DELETE';
-                endpoint += `/messages/${messageId}`;
-                break;
-              case RoomOptionsValue.GET_ROOM_TASKS:
-                endpoint += '/tasks';
-                break;
-              case RoomOptionsValue.GET_ROOM_TASK_DETAIL: {
-                const taskId = this.getNodeParameter(TaskIdProperty.name, itemIndex);
-                endpoint += `/tasks/${taskId}`;
-                break;
-              }
-              case RoomOptionsValue.CREATE_ROOM_TASK: {
-                const taskDes = this.getNodeParameter(BodyProperty.name, itemIndex);
-                const limit = Math.round(
-                  (new Date(this.getNodeParameter(LimitProperty.name, itemIndex) as string)).valueOf() / 1000,
-                );
-                const toIds = this.getNodeParameter(ToIdsProperty.name, itemIndex);
-                body = {
-                  body: taskDes,
-                  limit,
-                  to_ids: toIds,
-                };
-                method = 'POST';
-                endpoint += '/tasks';
-                break;
-              }
-              default:
-                throw new Error(`${operation} is not supported.`);
+        switch (operation) {
+          case RoomOptionsValue.GET_ALL:
+            break;
+          case RoomOptionsValue.GET_DETAIL:
+            break;
+          case RoomOptionsValue.UPDATE_INFO: {
+            method = 'PUT';
+            const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;
+            const name = this.getNodeParameter(NameProperty.name, itemIndex) as string;
+            const iconPreset = this.getNodeParameter(IconPresetProperty.name, itemIndex) as string;
+            body = {
+              icon_preset: iconPreset,
+            } as unknown as { name?: string, description?: string, icon_preset: string };
+            if (description) {
+              body.description = description;
             }
+            if (name) {
+              body.name = name;
+            }
+            break;
           }
+          case RoomOptionsValue.GET_MESSAGES:
+            endpoint += '/messages?force=1';
+            break;
+          case RoomOptionsValue.SEND_MESSAGE: {
+            method = 'POST';
+            endpoint += '/messages';
+            const message = this.getNodeParameter(MessageProperty.name, itemIndex) as string;
+            body = { body: message };
+            break;
+          }
+          case RoomOptionsValue.GET_MESSAGE_DETAIL: {
+            const messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
+            endpoint += `/messages/${messageId}`;
+            break;
+          }
+          case RoomOptionsValue.DELETE_MESSAGE: {
+            const messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
+            method = 'DELETE';
+            endpoint += `/messages/${messageId}`;
+            break;
+          }
+          case RoomOptionsValue.GET_MEMBERS:
+            endpoint += '/members';
+            break;
+          case RoomOptionsValue.GET_TASKS:
+            endpoint += '/tasks';
+            break;
+          case RoomOptionsValue.CREATE_TASK:
+            method = 'POST';
+            endpoint += '/tasks';
+            body = {
+              body: this.getNodeParameter(BodyProperty.name, itemIndex) as string,
+              limit: Math.round(
+                (new Date(this.getNodeParameter(LimitProperty.name, itemIndex) as string)).valueOf() / 1000,
+              ),
+              to_ids: this.getNodeParameter(ToIdsProperty.name, itemIndex) as string,
+            };
+            break;
+          case RoomOptionsValue.GET_TASK_DETAIL: {
+            const taskId = this.getNodeParameter(TaskIdProperty.name, itemIndex);
+            endpoint += `/tasks/${taskId}`;
+            break;
+          }
+          default:
+            throw new Error(`${operation} is not supported.`);
         }
       }
 
       const response = await chatworkApiRequest.call(this, method, endpoint, body);
+
       if (Array.isArray(response)) {
-        // flatten response
         returnItems.push(...response as INodeExecutionData[]);
       } else {
         returnItems.push({ json: response });
