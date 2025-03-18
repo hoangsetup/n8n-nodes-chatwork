@@ -151,8 +151,8 @@ The list of Chatwork apis need to complete:
   - [x] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
   - [x] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
   - [x] `GET /rooms/{room_id}/tasks/{task_id}` - Get information about the specified task
-  - [ ] `GET /rooms/{room_id}/files` - Get the list of files associated with the specified chat
-  - [ ] `GET /rooms/{room_id}/files/{file_id}` - Get information about the specified file
+  - [x] `GET /rooms/{room_id}/files` - Get the list of files associated with the specified chat
+  - [x] `GET /rooms/{room_id}/files/{file_id}` - Get information about the specified file
 - `/incoming_requests` - You can access contact approval requests you received
   - [ ] `GET /incoming_requests` - You can get the list of contact approval request you received
   - [ ] `PUT /incoming_requests/{request_id}` - You can approve a contact approval request you received
