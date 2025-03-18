@@ -12,6 +12,8 @@ import {
   BodyProperty,
   ContactProperty,
   DescriptionProperty,
+  FileCreateDownloadUrl,
+  FileIdProperty,
   IconPresetProperty,
   LimitProperty,
   MeProperty,
@@ -66,6 +68,8 @@ export class Chatwork implements INodeType {
       LimitProperty,
       ToIdsProperty,
       AccountIdProperty,
+      FileIdProperty,
+      FileCreateDownloadUrl,
     ],
   };
 
@@ -163,6 +167,12 @@ export class Chatwork implements INodeType {
           case RoomOptionsValue.GET_FILES: {
             const accountId = this.getNodeParameter(AccountIdProperty.name, itemIndex);
             endpoint += `/files${accountId ? `?account_id=${accountId}`: ''}`;
+            break;
+          }
+          case RoomOptionsValue.GET_FILE_DETAIL: {
+            const fileId = this.getNodeParameter(FileIdProperty.name, itemIndex);
+            const fileCreateDownloadUrl = this.getNodeParameter(FileCreateDownloadUrl.name, itemIndex);
+            endpoint += `/files/${fileId}${fileCreateDownloadUrl ? '?create_download_url=1' : ''}`;
             break;
           }
           default:

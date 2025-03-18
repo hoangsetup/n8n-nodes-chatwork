@@ -4,7 +4,8 @@ import { Chatwork } from './Chatwork.node';
 import {
   AccountIdProperty,
   BodyProperty,
-  DescriptionProperty,
+  DescriptionProperty, FileCreateDownloadUrl,
+  FileIdProperty,
   IconPresetProperty,
   LimitProperty,
   MessageIdProperty,
@@ -255,6 +256,27 @@ describe('Chatwork', () => {
           });
         });
 
+        (
+          [
+            [true, '?create_download_url=1'],
+            [false, ''],
+          ] as Array<[boolean, string]>
+        ).forEach(([createDownloadUrl, expectedQueryParam], index) => {
+          it(`/files/:fileId (GET). Case ${index}`, async () => {
+            context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.GET_FILE_DETAIL);
+            context.getNodeParameter.mockReturnValueOnce(roomId);
+            const fileId = 'file-id';
+            context.getNodeParameter.mockReturnValueOnce(fileId);
+            context.getNodeParameter.mockReturnValueOnce(createDownloadUrl);
+
+            const result = await chatworkNode.execute.call(context);
+
+            expect(context.getNodeParameter).toHaveBeenCalledWith(FileIdProperty.name, 0);
+            expect(context.getNodeParameter).toHaveBeenCalledWith(FileCreateDownloadUrl.name, 0);
+            expect(mockChatworkApiRequest).toHaveBeenCalledWith('GET', `/rooms/${roomId}/files/${fileId}${expectedQueryParam}`, undefined);
+            expect(result).toEqual([[{ json: {} }]]);
+          });
+        });
 
         it('/un-supported', async () => {
           context.getNodeParameter.mockReturnValueOnce('un-supported');

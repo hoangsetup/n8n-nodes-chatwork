@@ -14,6 +14,7 @@ export enum RoomOptionsValue {
   GET_TASK_DETAIL = 'getTaskDetail',
   CREATE_TASK = 'createTask',
   GET_FILES = 'getFiles',
+  GET_FILE_DETAIL = 'getFileDetail',
 }
 
 export const RoomProperty: INodeProperties = {
@@ -89,6 +90,11 @@ export const RoomProperty: INodeProperties = {
       name: 'Get the list of files',
       value: RoomOptionsValue.GET_FILES,
       description: 'Get the list of files associated with the specified chat',
+    },
+    {
+      name: 'Get information about the specified file',
+      value: RoomOptionsValue.GET_FILE_DETAIL,
+      description: 'Get information about the specified file',
     },
   ],
   default: RoomOptionsValue.GET_ALL,
