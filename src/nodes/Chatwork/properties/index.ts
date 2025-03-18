@@ -13,3 +13,4 @@ export * from './Room';
 export * from './RoomId';
 export * from './TaskId';
 export * from './ToIds';
+export * from './AccountId';

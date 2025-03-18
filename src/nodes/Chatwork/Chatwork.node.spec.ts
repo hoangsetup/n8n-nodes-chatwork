@@ -2,6 +2,7 @@ import { IDataObject, IExecuteFunctions, INodeExecutionData } from 'n8n-workflow
 import { chatworkApiRequest } from '../../shared/GenericFunctions';
 import { Chatwork } from './Chatwork.node';
 import {
+  AccountIdProperty,
   BodyProperty,
   DescriptionProperty,
   IconPresetProperty,
@@ -234,6 +235,26 @@ describe('Chatwork', () => {
           expect(mockChatworkApiRequest).toHaveBeenCalledWith('GET', `/rooms/${roomId}/tasks/${taskId}`, undefined);
           expect(result).toEqual([[{ json: {} }]]);
         });
+
+        (
+          [
+            [123, '?account_id=123'],
+            [undefined, ''],
+          ] as Array<[number | undefined, string]>
+        ).forEach(([accountId, expectedQueryParam], index) => {
+          it(`/files (GET). Case ${index}`, async () => {
+            context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.GET_FILES);
+            context.getNodeParameter.mockReturnValueOnce(roomId);
+            context.getNodeParameter.mockReturnValueOnce(accountId);
+
+            const result = await chatworkNode.execute.call(context);
+
+            expect(context.getNodeParameter).toHaveBeenCalledWith(AccountIdProperty.name, 0);
+            expect(mockChatworkApiRequest).toHaveBeenCalledWith('GET', `/rooms/${roomId}/files${expectedQueryParam}`, undefined);
+            expect(result).toEqual([[{ json: {} }]]);
+          });
+        });
+
 
         it('/un-supported', async () => {
           context.getNodeParameter.mockReturnValueOnce('un-supported');

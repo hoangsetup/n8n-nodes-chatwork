@@ -8,6 +8,7 @@ import {
 } from 'n8n-workflow';
 import { chatworkApiRequest } from '../../shared/GenericFunctions';
 import {
+  AccountIdProperty,
   BodyProperty,
   ContactProperty,
   DescriptionProperty,
@@ -64,6 +65,7 @@ export class Chatwork implements INodeType {
       BodyProperty,
       LimitProperty,
       ToIdsProperty,
+      AccountIdProperty,
     ],
   };
 
@@ -156,6 +158,11 @@ export class Chatwork implements INodeType {
           case RoomOptionsValue.GET_TASK_DETAIL: {
             const taskId = this.getNodeParameter(TaskIdProperty.name, itemIndex);
             endpoint += `/tasks/${taskId}`;
+            break;
+          }
+          case RoomOptionsValue.GET_FILES: {
+            const accountId = this.getNodeParameter(AccountIdProperty.name, itemIndex);
+            endpoint += `/files${accountId ? `?account_id=${accountId}`: ''}`;
             break;
           }
           default:

@@ -24,6 +24,7 @@ export const RoomIdProperty: INodeProperties = {
         RoomOptionsValue.GET_TASKS,
         RoomOptionsValue.GET_TASK_DETAIL,
         RoomOptionsValue.CREATE_TASK,
+        RoomOptionsValue.GET_FILES,
       ],
     },
   },
