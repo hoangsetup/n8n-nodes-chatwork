@@ -238,10 +238,20 @@ describe('Chatwork', () => {
         it('/un-supported', async () => {
           context.getNodeParameter.mockReturnValueOnce('un-supported');
 
-          await expect(chatworkNode.execute.call(context)).rejects.toThrow(new Error('un-supported is not supported.'));
+          await expect(chatworkNode.execute.call(context)).rejects.toThrow(new Error('un-supported operation is not supported.'));
 
           expect(mockChatworkApiRequest).not.toHaveBeenCalled();
         });
+      });
+    });
+
+    describe('/un-supported', () => {
+      it('/un-supported', async () => {
+        context.getNodeParameter.mockReturnValueOnce('un-supported');
+
+        await expect(chatworkNode.execute.call(context)).rejects.toThrow(new Error('un-supported resource is not supported.'));
+
+        expect(mockChatworkApiRequest).not.toHaveBeenCalled();
       });
     });
 

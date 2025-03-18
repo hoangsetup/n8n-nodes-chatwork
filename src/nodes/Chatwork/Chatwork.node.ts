@@ -159,8 +159,10 @@ export class Chatwork implements INodeType {
             break;
           }
           default:
-            throw new Error(`${operation} is not supported.`);
+            throw new Error(`${operation} operation is not supported.`);
         }
+      } else {
+        throw new Error(`${resource} resource is not supported.`);
       }
 
       const response = await chatworkApiRequest.call(this, method, endpoint, body);
