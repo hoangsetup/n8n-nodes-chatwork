@@ -16,6 +16,7 @@ export enum RoomOptionsValue {
   GET_FILES = 'getFiles',
   GET_FILE_DETAIL = 'getFileDetail',
   CREATE = 'createRoom',
+  LEAVE_OR_DELETE = 'leaveOrDeleteRoom',
 }
 
 export const RoomProperty: INodeProperties = {
@@ -41,6 +42,13 @@ export const RoomProperty: INodeProperties = {
       name: 'Create a new group chat',
       value: RoomOptionsValue.CREATE,
       description: 'Create a new group chat',
+    },
+    {
+      name: 'Leave/Delete a group chat',
+      value: RoomOptionsValue.LEAVE_OR_DELETE,
+      description: 'When a user leaves the group chat, all the user’s tasks and files uploaded by the user will be deleted.'
+        + 'When a group chat is deleted, all the messages, tasks, and files associated with the group chat will also be deleted.'
+        + 'Please be aware that deleted contents cannot be restored.',
     },
     {
       name: 'Get detail',

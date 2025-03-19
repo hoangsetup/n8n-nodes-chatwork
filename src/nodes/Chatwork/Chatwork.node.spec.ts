@@ -3,6 +3,7 @@ import { chatworkApiRequest, ICreateRoomPayload } from '../../shared/GenericFunc
 import { Chatwork } from './Chatwork.node';
 import {
   AccountIdProperty,
+  ActionTypeProperty,
   BodyProperty,
   DescriptionProperty,
   FileCreateDownloadUrl,
@@ -185,6 +186,23 @@ describe('Chatwork', () => {
             'PUT',
             `/rooms/${roomId}`,
             { description, name, icon_preset: iconPreset },
+          );
+          expect(result).toEqual([[{ json: {} }]]);
+        });
+
+        it('/ (DELETE)', async () => {
+          context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.LEAVE_OR_DELETE);
+          context.getNodeParameter.mockReturnValueOnce(roomId);
+          const actionType = 'action-type';
+          context.getNodeParameter.mockReturnValueOnce(actionType);
+
+          const result = await chatworkNode.execute.call(context);
+
+          expect(context.getNodeParameter).toHaveBeenCalledWith(ActionTypeProperty.name, 0);
+          expect(mockChatworkApiRequest).toHaveBeenCalledWith(
+            'DELETE',
+            `/rooms/${roomId}`,
+            { action_type: actionType },
           );
           expect(result).toEqual([[{ json: {} }]]);
         });

@@ -9,6 +9,7 @@ import {
 import { chatworkApiRequest } from '../../shared/GenericFunctions';
 import {
   AccountIdProperty,
+  ActionTypeProperty,
   BodyProperty,
   ContactProperty,
   DescriptionProperty,
@@ -78,6 +79,7 @@ export class Chatwork implements INodeType {
       MembersAdminIdsProperty,
       MembersMemberIdsProperty,
       MembersReadonlyIdsProperty,
+      ActionTypeProperty,
     ],
   };
 
@@ -152,6 +154,12 @@ export class Chatwork implements INodeType {
             if (name) {
               body.name = name;
             }
+            break;
+          }
+          case RoomOptionsValue.LEAVE_OR_DELETE: {
+            method = 'DELETE';
+            const actionType = this.getNodeParameter(ActionTypeProperty.name, itemIndex) as string;
+            body = { action_type: actionType };
             break;
           }
           case RoomOptionsValue.GET_MESSAGES:
