@@ -2,9 +2,9 @@ import { INodeProperties } from 'n8n-workflow';
 import { ResourceOptionsValue } from './Resource';
 import { RoomOptionsValue } from './Room';
 
-export const DescriptionProperty: INodeProperties = {
-  displayName: 'Chat description',
-  name: 'description',
+export const MembersMemberIdsProperty: INodeProperties = {
+  displayName: 'Group Chat Members',
+  name: 'membersMemberIds',
   type: 'string',
   default: '',
   displayOptions: {
@@ -14,10 +14,9 @@ export const DescriptionProperty: INodeProperties = {
       ],
       operation: [
         RoomOptionsValue.CREATE,
-        RoomOptionsValue.UPDATE_INFO,
       ],
     },
   },
-  placeholder: 'group chat description',
-  description: 'Description of the group chat',
+  placeholder: '21,344',
+  description: 'List of user IDs who will be given member permission for the group chat',
 };

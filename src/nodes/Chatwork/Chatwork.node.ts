@@ -16,11 +16,15 @@ import {
   FileIdProperty,
   IconPresetProperty,
   LimitProperty,
+  MembersAdminIdsProperty,
+  MembersMemberIdsProperty,
+  MembersReadonlyIdsProperty,
   MeProperty,
   MessageIdProperty,
   MessageProperty,
   MyProperty,
   NameProperty,
+  NameRequiredProperty,
   ResourceOptionsValue,
   ResourceProperty,
   RoomIdProperty,
@@ -59,8 +63,9 @@ export class Chatwork implements INodeType {
       RoomProperty,
       RoomIdProperty,
       MessageProperty,
-      DescriptionProperty,
       NameProperty,
+      NameRequiredProperty,
+      DescriptionProperty,
       IconPresetProperty,
       MessageIdProperty,
       TaskIdProperty,
@@ -70,6 +75,9 @@ export class Chatwork implements INodeType {
       AccountIdProperty,
       FileIdProperty,
       FileCreateDownloadUrl,
+      MembersAdminIdsProperty,
+      MembersMemberIdsProperty,
+      MembersReadonlyIdsProperty,
     ],
   };
 
@@ -95,7 +103,7 @@ export class Chatwork implements INodeType {
         endpoint += '/rooms';
         const operation = this.getNodeParameter('operation', itemIndex) as RoomOptionsValue;
 
-        if (operation !== RoomOptionsValue.GET_ALL) {
+        if (![RoomOptionsValue.GET_ALL, RoomOptionsValue.CREATE].includes(operation)) {
           const roomId = this.getNodeParameter(RoomIdProperty.name, itemIndex) as number;
           endpoint += `/${roomId}`;
         }
@@ -105,6 +113,31 @@ export class Chatwork implements INodeType {
             break;
           case RoomOptionsValue.GET_DETAIL:
             break;
+          case RoomOptionsValue.CREATE: {
+            method = 'POST';
+            const name = this.getNodeParameter(NameRequiredProperty.name, itemIndex) as string;
+            const membersAdminIds = this.getNodeParameter(MembersAdminIdsProperty.name, itemIndex) as string;
+            const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;
+            const iconPreset = this.getNodeParameter(IconPresetProperty.name, itemIndex) as string;
+            const membersMemberIds = this.getNodeParameter(MembersMemberIdsProperty.name, itemIndex) as string;
+            const membersReadonlyIds = this.getNodeParameter(MembersReadonlyIdsProperty.name, itemIndex) as string;
+
+            body = {
+              name,
+              members_admin_ids: membersAdminIds,
+              icon_preset: iconPreset,
+            };
+            if (description) {
+              body.description = description;
+            }
+            if (membersMemberIds) {
+              body.members_member_ids = membersMemberIds;
+            }
+            if (membersReadonlyIds) {
+              body.members_readonly_ids = membersReadonlyIds;
+            }
+            break;
+          }
           case RoomOptionsValue.UPDATE_INFO: {
             method = 'PUT';
             const description = this.getNodeParameter(DescriptionProperty.name, itemIndex) as string;

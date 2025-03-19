@@ -1,17 +1,22 @@
 import { IDataObject, IExecuteFunctions, INodeExecutionData } from 'n8n-workflow';
-import { chatworkApiRequest } from '../../shared/GenericFunctions';
+import { chatworkApiRequest, ICreateRoomPayload } from '../../shared/GenericFunctions';
 import { Chatwork } from './Chatwork.node';
 import {
   AccountIdProperty,
   BodyProperty,
-  DescriptionProperty, FileCreateDownloadUrl,
+  DescriptionProperty,
+  FileCreateDownloadUrl,
   FileIdProperty,
   IconPresetProperty,
   LimitProperty,
+  MembersAdminIdsProperty,
+  MembersMemberIdsProperty,
+  MembersReadonlyIdsProperty,
   MessageIdProperty,
   MessageProperty,
   MyOptionsValue,
   NameProperty,
+  NameRequiredProperty,
   ResourceOptionsValue,
   RoomOptionsValue,
   TaskIdProperty,
@@ -90,6 +95,62 @@ describe('Chatwork', () => {
 
         expect(mockChatworkApiRequest).toHaveBeenCalledWith('GET', `/rooms`, undefined);
         expect(result).toEqual([[{ json: {} }]]);
+      });
+
+      (
+        [
+          [undefined, undefined, undefined, {}],
+          ['description', undefined, undefined, { description: 'description' }],
+          [
+            'description', 'membersMemberIds', undefined,
+            {
+              description: 'description',
+              members_member_ids: 'membersMemberIds',
+            },
+          ],
+          [
+            'description', 'membersMemberIds', 'membersReadonlyIds',
+            {
+              description: 'description',
+              members_member_ids: 'membersMemberIds',
+              members_readonly_ids: 'membersReadonlyIds',
+            },
+          ],
+        ] as Array<[string | undefined, string | undefined, string | undefined, Omit<ICreateRoomPayload, 'name' | 'members_admin_ids' | 'icon_preset'>]>
+      ).forEach(([description, membersMemberIds, membersReadonlyIds, expectedBody], index) => {
+        it(`/ (POST). Case ${index}`, async () => {
+          const name = 'group name';
+          const membersAdminIds = 'members-admins-ids';
+          const iconPreset = 'icon-preset';
+          context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.CREATE);
+          context.getNodeParameter
+            .mockReturnValueOnce(name)
+            .mockReturnValueOnce(membersAdminIds)
+            .mockReturnValueOnce(description)
+            .mockReturnValueOnce(iconPreset)
+            .mockReturnValueOnce(membersMemberIds)
+            .mockReturnValueOnce(membersReadonlyIds);
+
+          const result = await chatworkNode.execute.call(context);
+
+          expect(context.getNodeParameter).toHaveBeenCalledWith(NameRequiredProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(MembersAdminIdsProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(DescriptionProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(IconPresetProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(MembersMemberIdsProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(MembersReadonlyIdsProperty.name, 0);
+          expect(mockChatworkApiRequest).toHaveBeenCalledWith(
+            'POST',
+            '/rooms',
+            {
+              name,
+              members_admin_ids: membersAdminIds,
+              icon_preset: iconPreset,
+              ...expectedBody,
+            },
+          );
+          expect(result).toEqual([[{ json: {} }]]);
+        });
       });
 
       describe('/:roomId', () => {

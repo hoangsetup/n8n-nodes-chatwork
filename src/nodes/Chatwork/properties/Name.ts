@@ -1,4 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
+import { IDisplayOptions } from 'n8n-workflow/dist/Interfaces';
 import { ResourceOptionsValue } from './Resource';
 import { RoomOptionsValue } from './Room';
 
@@ -19,4 +20,17 @@ export const NameProperty: INodeProperties = {
   },
   placeholder: 'Website renewal project',
   description: 'Title of the group chat',
+};
+
+export const NameRequiredProperty: INodeProperties = {
+  ...NameProperty,
+  required: true,
+  displayOptions: {
+    show: {
+      ...(NameProperty.displayOptions as IDisplayOptions).show,
+      operation: [
+        RoomOptionsValue.CREATE,
+      ],
+    },
+  },
 };

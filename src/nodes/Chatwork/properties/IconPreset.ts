@@ -1,4 +1,4 @@
-import { INodeProperties } from 'n8n-workflow';
+import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
 import { ResourceOptionsValue } from './Resource';
 import { RoomOptionsValue } from './Room';
 
@@ -13,29 +13,15 @@ export const IconPresetProperty: INodeProperties = {
         ResourceOptionsValue.ROOMS,
       ],
       operation: [
+        RoomOptionsValue.CREATE,
         RoomOptionsValue.UPDATE_INFO,
       ],
     },
   },
   options: [
-    { 'name': 'Group', 'value': 'group' },
-    { 'name': 'Check', 'value': 'check' },
-    { 'name': 'Document', 'value': 'document' },
-    { 'name': 'Meeting', 'value': 'meeting' },
-    { 'name': 'Event', 'value': 'event' },
-    { 'name': 'Project', 'value': 'project' },
-    { 'name': 'Business', 'value': 'business' },
-    { 'name': 'Study', 'value': 'study' },
-    { 'name': 'Security', 'value': 'security' },
-    { 'name': 'Star', 'value': 'star' },
-    { 'name': 'Idea', 'value': 'idea' },
-    { 'name': 'Heart', 'value': 'heart' },
-    { 'name': 'Magcup', 'value': 'magcup' },
-    { 'name': 'Beer', 'value': 'beer' },
-    { 'name': 'Music', 'value': 'music' },
-    { 'name': 'Sports', 'value': 'sports' },
-    { 'name': 'Travel', 'value': 'travel' },
-  ],
-  placeholder: '',
+    'group', 'check', 'document', 'meeting', 'event',
+    'project', 'business', 'study', 'security', 'star',
+    'idea', 'heart', 'magcup', 'beer', 'music', 'sports', 'travel'
+  ].map<INodePropertyOptions>((v) => ({ name: v, value: v })),
   description: 'Type of the group chat icon',
 };

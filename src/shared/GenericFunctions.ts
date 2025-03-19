@@ -23,11 +23,20 @@ export interface ICreateRoomTaskPayload {
   to_ids: string;
 }
 
+export interface ICreateRoomPayload {
+  name: string;
+  members_admin_ids: string;
+  description?: string;
+  icon_preset: string;
+  members_member_ids?: string;
+  members_readonly_ids?: string;
+}
+
 export async function chatworkApiRequest(
   this: IHookFunctions | IExecuteFunctions,
   method: IHttpRequestMethods,
   endpoint: string,
-  body?: ISendMessagePayload | IUpdateRoomPayload | ICreateRoomTaskPayload,
+  body?: ISendMessagePayload | IUpdateRoomPayload | ICreateRoomTaskPayload | ICreateRoomPayload,
 ): Promise<IDataObject | IDataObject[]> {
   const options: IRequestOptions = {
     method,

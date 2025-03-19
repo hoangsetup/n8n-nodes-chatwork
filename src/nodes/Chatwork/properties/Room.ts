@@ -15,6 +15,7 @@ export enum RoomOptionsValue {
   CREATE_TASK = 'createTask',
   GET_FILES = 'getFiles',
   GET_FILE_DETAIL = 'getFileDetail',
+  CREATE = 'createRoom',
 }
 
 export const RoomProperty: INodeProperties = {
@@ -35,6 +36,11 @@ export const RoomProperty: INodeProperties = {
       name: 'Get rooms',
       value: RoomOptionsValue.GET_ALL,
       description: 'Get the list of all chats on your account',
+    },
+    {
+      name: 'Create a new group chat',
+      value: RoomOptionsValue.CREATE,
+      description: 'Create a new group chat',
     },
     {
       name: 'Get detail',
