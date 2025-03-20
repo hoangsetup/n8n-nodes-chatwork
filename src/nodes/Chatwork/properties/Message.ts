@@ -7,6 +7,7 @@ export const MessageProperty: INodeProperties = {
   name: 'message',
   type: 'string',
   default: '',
+  required: true,
   displayOptions: {
     show: {
       resource: [
@@ -14,6 +15,7 @@ export const MessageProperty: INodeProperties = {
       ],
       operation: [
         RoomOptionsValue.SEND_MESSAGE,
+        RoomOptionsValue.UPDATE_MESSAGE,
       ],
     },
   },

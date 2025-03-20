@@ -243,6 +243,23 @@ describe('Chatwork', () => {
           expect(result).toEqual([[{ json: {} }]]);
         });
 
+        it('/messages/:messageId (PUT)', async () => {
+          context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.UPDATE_MESSAGE);
+          context.getNodeParameter.mockReturnValueOnce(roomId);
+          const messageId = 'message-id';
+          const body = 'body';
+          context.getNodeParameter
+            .mockReturnValueOnce(messageId)
+            .mockReturnValueOnce(body);
+
+          const result = await chatworkNode.execute.call(context);
+
+          expect(context.getNodeParameter).toHaveBeenCalledWith(MessageIdProperty.name, 0);
+          expect(context.getNodeParameter).toHaveBeenCalledWith(MessageProperty.name, 0);
+          expect(mockChatworkApiRequest).toHaveBeenCalledWith('PUT', `/rooms/${roomId}/messages/${messageId}`, { body});
+          expect(result).toEqual([[{ json: {} }]]);
+        });
+
         it('/messages/:messageId (DELETE)', async () => {
           context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.DELETE_MESSAGE);
           context.getNodeParameter.mockReturnValueOnce(roomId);

@@ -9,6 +9,7 @@ export enum RoomOptionsValue {
   GET_MESSAGES = 'getMessages',
   SEND_MESSAGE = 'sendMessage',
   GET_MESSAGE_DETAIL = 'getMessageDetail',
+  UPDATE_MESSAGE = 'updateMessage',
   DELETE_MESSAGE = 'deleteMessage',
   GET_TASKS = 'getTasks',
   GET_TASK_DETAIL = 'getTaskDetail',
@@ -85,6 +86,10 @@ export const RoomProperty: INodeProperties = {
       name: 'Get message detail',
       value: RoomOptionsValue.GET_MESSAGE_DETAIL,
       description: 'Get information about the specified message',
+    },
+    {
+      name: 'Update the specified message',
+      value: RoomOptionsValue.UPDATE_MESSAGE,
     },
     {
       name: 'Delete message',

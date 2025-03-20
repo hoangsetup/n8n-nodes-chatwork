@@ -177,6 +177,14 @@ export class Chatwork implements INodeType {
             endpoint += `/messages/${messageId}`;
             break;
           }
+          case RoomOptionsValue.UPDATE_MESSAGE: {
+            method = 'PUT';
+            const messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
+            const message = this.getNodeParameter(MessageProperty.name, itemIndex) as string;
+            endpoint += `/messages/${messageId}`;
+            body = { body: message }
+            break;
+          }
           case RoomOptionsValue.DELETE_MESSAGE: {
             const messageId = this.getNodeParameter(MessageIdProperty.name, itemIndex) as string;
             method = 'DELETE';

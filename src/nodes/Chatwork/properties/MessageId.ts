@@ -7,6 +7,7 @@ export const MessageIdProperty: INodeProperties = {
   name: 'messageId',
   type: 'number',
   default: 0,
+  required: true,
   displayOptions: {
     show: {
       resource: [
@@ -14,6 +15,7 @@ export const MessageIdProperty: INodeProperties = {
       ],
       operation: [
         RoomOptionsValue.GET_MESSAGE_DETAIL,
+        RoomOptionsValue.UPDATE_MESSAGE,
         RoomOptionsValue.DELETE_MESSAGE,
       ],
     },

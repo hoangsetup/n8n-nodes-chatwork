@@ -20,6 +20,7 @@ export const RoomIdProperty: INodeProperties = {
         RoomOptionsValue.GET_MESSAGES,
         RoomOptionsValue.UPDATE_INFO,
         RoomOptionsValue.GET_MESSAGE_DETAIL,
+        RoomOptionsValue.UPDATE_MESSAGE,
         RoomOptionsValue.DELETE_MESSAGE,
         RoomOptionsValue.GET_TASKS,
         RoomOptionsValue.GET_TASK_DETAIL,
