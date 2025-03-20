@@ -137,16 +137,16 @@ The list of Chatwork apis need to complete:
   - [x] `GET /contacts` - Get the list of your contacts
 - `/rooms` - Used to access information such as messages, members, files, and tasks associated to a specific conversation.
   - [x] `GET /rooms` - Get the list of all chats on your account
-  - [ ] `POST /rooms` - Create a new group chat
+  - [x] `POST /rooms` - Create a new group chat
   - [x] `GET /rooms/{room_id}` - Get chat name, icon, and Type (my, direct, or group)
   - [x] `PUT /rooms/{room_id}` - Change the title and icon type of the specified chat
-  - [ ] `DELETE /rooms/{room_id}` - Leave/Delete a group chat
+  - [x] `DELETE /rooms/{room_id}` - Leave/Delete a group chat
   - [x] `GET /rooms/{room_id}/members` - Get the list of all chat members associated with the specified chat
-  - [ ] `PUT /rooms/{room_id}/members` - Change associated members of group chat at once
+  - [x] `PUT /rooms/{room_id}/members` - Change associated members of group chat at once
   - [x] `GET /rooms/{room_id}/messages` - Get all messages associated with the specified chat
   - [x] `POST /rooms/{room_id}/messages` - Add new message to the chat
   - [x] `GET /rooms/{room_id}/messages/{message_id}` - Get information about the specified message
-  - [ ] `PUT /rooms/{room_id}/messages/{message_id}` - Update the specified message
+  - [x] `PUT /rooms/{room_id}/messages/{message_id}` - Update the specified message
   - [x] `DELETE /rooms/{room_id}/messages/{message_id}` - Delete the specified message
   - [x] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
   - [x] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
