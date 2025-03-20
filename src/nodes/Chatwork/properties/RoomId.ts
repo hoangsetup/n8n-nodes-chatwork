@@ -27,6 +27,7 @@ export const RoomIdProperty: INodeProperties = {
         RoomOptionsValue.GET_FILES,
         RoomOptionsValue.GET_FILE_DETAIL,
         RoomOptionsValue.LEAVE_OR_DELETE,
+        RoomOptionsValue.CHANGE_ASSOCIATED_MEMBERS,
       ],
     },
   },

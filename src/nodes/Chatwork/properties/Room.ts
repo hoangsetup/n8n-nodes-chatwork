@@ -17,6 +17,7 @@ export enum RoomOptionsValue {
   GET_FILE_DETAIL = 'getFileDetail',
   CREATE = 'createRoom',
   LEAVE_OR_DELETE = 'leaveOrDeleteRoom',
+  CHANGE_ASSOCIATED_MEMBERS = 'changeAssociatedMembers',
 }
 
 export const RoomProperty: INodeProperties = {
@@ -64,6 +65,11 @@ export const RoomProperty: INodeProperties = {
       name: 'Get members',
       value: RoomOptionsValue.GET_MEMBERS,
       description: 'Get the list of all chat members associated with the specified chat ',
+    },
+    {
+      name: 'Change associated members',
+      value: RoomOptionsValue.CHANGE_ASSOCIATED_MEMBERS,
+      description: 'Change associated members of group chat at once',
     },
     {
       name: 'Get messages',

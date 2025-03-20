@@ -186,6 +186,24 @@ export class Chatwork implements INodeType {
           case RoomOptionsValue.GET_MEMBERS:
             endpoint += '/members';
             break;
+          case RoomOptionsValue.CHANGE_ASSOCIATED_MEMBERS: {
+            method = 'PUT';
+            endpoint += '/members';
+            const membersAdminIds = this.getNodeParameter(MembersAdminIdsProperty.name, itemIndex) as string;
+            const membersMemberIds = this.getNodeParameter(MembersMemberIdsProperty.name, itemIndex) as string;
+            const membersReadonlyIds = this.getNodeParameter(MembersReadonlyIdsProperty.name, itemIndex) as string;
+
+            body = {
+              members_admin_ids: membersAdminIds,
+            };
+            if (membersMemberIds) {
+              body.members_member_ids = membersMemberIds;
+            }
+            if (membersReadonlyIds) {
+              body.members_readonly_ids = membersReadonlyIds;
+            }
+            break;
+          }
           case RoomOptionsValue.GET_TASKS:
             endpoint += '/tasks';
             break;

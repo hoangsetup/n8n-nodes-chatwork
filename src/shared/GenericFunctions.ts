@@ -36,11 +36,23 @@ export interface ILeaveOrDeleteRoomPayload {
   action_type: string;
 }
 
+export interface IChangeAssociatedMembersPayload {
+  members_admin_ids: string;
+  members_member_ids?: string;
+  members_readonly_ids?: string;
+}
+
 export async function chatworkApiRequest(
   this: IHookFunctions | IExecuteFunctions,
   method: IHttpRequestMethods,
   endpoint: string,
-  body?: ISendMessagePayload | IUpdateRoomPayload | ICreateRoomTaskPayload | ICreateRoomPayload | ILeaveOrDeleteRoomPayload,
+  body?:
+    ISendMessagePayload
+    | IUpdateRoomPayload
+    | ICreateRoomTaskPayload
+    | ICreateRoomPayload
+    | ILeaveOrDeleteRoomPayload
+    | IChangeAssociatedMembersPayload,
 ): Promise<IDataObject | IDataObject[]> {
   const options: IRequestOptions = {
     method,

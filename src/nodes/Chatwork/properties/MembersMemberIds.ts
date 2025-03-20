@@ -14,6 +14,7 @@ export const MembersMemberIdsProperty: INodeProperties = {
       ],
       operation: [
         RoomOptionsValue.CREATE,
+        RoomOptionsValue.CHANGE_ASSOCIATED_MEMBERS,
       ],
     },
   },

@@ -1,5 +1,5 @@
 import { IDataObject, IExecuteFunctions, INodeExecutionData } from 'n8n-workflow';
-import { chatworkApiRequest, ICreateRoomPayload } from '../../shared/GenericFunctions';
+import { chatworkApiRequest, IChangeAssociatedMembersPayload, ICreateRoomPayload } from '../../shared/GenericFunctions';
 import { Chatwork } from './Chatwork.node';
 import {
   AccountIdProperty,
@@ -264,6 +264,50 @@ describe('Chatwork', () => {
 
           expect(mockChatworkApiRequest).toHaveBeenCalledWith('GET', `/rooms/${roomId}/members`, undefined);
           expect(result).toEqual([[{ json: {} }]]);
+        });
+
+        (
+          [
+            [undefined, undefined, {}],
+            [
+              'membersMemberIds', undefined,
+              {
+                members_member_ids: 'membersMemberIds',
+              },
+            ],
+            [
+              'membersMemberIds', 'membersReadonlyIds',
+              {
+                members_member_ids: 'membersMemberIds',
+                members_readonly_ids: 'membersReadonlyIds',
+              },
+            ],
+          ] as Array<[string | undefined, string | undefined, Omit<IChangeAssociatedMembersPayload, 'members_admin_ids'>]>
+        ).forEach(([membersMemberIds, membersReadonlyIds, expectedBody], index) => {
+          it(`/members (PUT). Case ${index}`, async () => {
+            const membersAdminIds = 'members-admins-ids';
+            context.getNodeParameter.mockReturnValueOnce(RoomOptionsValue.CHANGE_ASSOCIATED_MEMBERS);
+            context.getNodeParameter.mockReturnValueOnce(roomId);
+            context.getNodeParameter
+              .mockReturnValueOnce(membersAdminIds)
+              .mockReturnValueOnce(membersMemberIds)
+              .mockReturnValueOnce(membersReadonlyIds);
+
+            const result = await chatworkNode.execute.call(context);
+
+            expect(context.getNodeParameter).toHaveBeenCalledWith(MembersAdminIdsProperty.name, 0);
+            expect(context.getNodeParameter).toHaveBeenCalledWith(MembersMemberIdsProperty.name, 0);
+            expect(context.getNodeParameter).toHaveBeenCalledWith(MembersReadonlyIdsProperty.name, 0);
+            expect(mockChatworkApiRequest).toHaveBeenCalledWith(
+              'PUT',
+              `/rooms/${roomId}/members`,
+              {
+                members_admin_ids: membersAdminIds,
+                ...expectedBody,
+              },
+            );
+            expect(result).toEqual([[{ json: {} }]]);
+          });
         });
 
         it('/tasks (GET)', async () => {
