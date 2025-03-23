@@ -77,18 +77,17 @@ Now that everything the project requires to run is installed the project can be 
     cd dist
     npm link
     ```
+6. Install n8n globally
 
-6. Create symbolic link
+    ```
+    npm install -g n8n
+    ```
+
+7. Create symbolic link
 
     ```sh
     cd ~./n8n/custom
     npm link n8n-nodes-chatwork
-    ```
-
-7. Install n8n globally
-
-    ```
-    npm install -g n8n
     ```
 
 ### Start
@@ -109,20 +108,15 @@ While iterating on n8n-nodes-chatwork modules code, you can run `npm run dev`. I
 
 2. code, code, code
 
-3. Check if everything still runs in production mode
+3. Create a workflow on your n8n local service (http://localhost:4567) to test your function.
+
+4. Run all lint & tests
 
     ```sh
-    npm run build
-    npm run n8n
+    npm run lint && npm run test
     ```
 
-4. Run all tests
-
-    ```sh
-    npm run test
-    ```
-
-6. Commit code and create pull request
+5. Commit code and create pull request
 
 ## TODO list
 
