@@ -81,10 +81,7 @@ This node uses the new **routing-based request system** introduced in n8n v1. Ol
 Most operations are straightforward and map directly to ChatWork API endpoints.
 
 Notes:
-- Some ChatWork endpoints (for example, sending messages or uploading files) require
-  `multipart/form-data`. This node handles the required headers automatically.
 - Boolean options such as *Create download URL* control optional API query parameters.
-- When sending messages, the message body is automatically mapped to the API request body.
 
 If you are new to n8n, see the [Try it out](https://docs.n8n.io/try-it-out/) guide to get started.
 
@@ -95,7 +92,7 @@ If you are new to n8n, see the [Try it out](https://docs.n8n.io/try-it-out/) gui
 
 ## Version history
 
-### 1.2.0
+### 2.0.0
 - Migrated to n8n routing-based request structure
 - Improved Room operations
 - Fixed message sending with multipart/form-data
