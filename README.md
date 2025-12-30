@@ -1,43 +1,102 @@
-![CI](https://github.com/hoangsetup/n8n-nodes-chatwork/workflows/CI/badge.svg)
-
 # n8n-nodes-chatwork
 
-![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
+This is an n8n community node. It lets you use **ChatWork** in your n8n workflows.
 
-This is a n8n community node. It lets you use ChatWork in your n8n workflows.
+**ChatWork** is a business chat platform that provides messaging, task management, file sharing, and team collaboration features via a REST API.
+
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+
+[Installation](#installation)
+[Operations](#operations)
+[Credentials](#credentials)
+[Compatibility](#compatibility)
+[Usage](#usage)
+[Resources](#resources)
+[Version history](#version-history)
 
 ## Installation
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
-## Operations/Apis
+After installation, restart n8n to load the ChatWork node.
 
-- `/me` - Used to access your account information
-  - [x] `GET /me` - Get your account information
-- `/my` - Used to access your data on the account.
-  - [x] `GET /my/status` - Get the number of: unread messages, unread To messages, and unfinished tasks.
-  - [x] `GET /my/task` - Get the list of all unfinished tasks.
-- `/contacts` - Used to access the list of your contacts
-  - [x] `GET /contacts` - Get the list of your contacts
-- `/rooms` - Used to access information such as messages, members, files, and tasks associated to a specific conversation.
-  - [x] `GET /rooms` - Get the list of all chats on your account
-  - [x] `POST /rooms` - Create a new group chat
-  - [x] `GET /rooms/{room_id}` - Get chat name, icon, and Type (my, direct, or group)
-  - [x] `PUT /rooms/{room_id}` - Change the title and icon type of the specified chat
-  - [x] `DELETE /rooms/{room_id}` - Leave/Delete a group chat
-  - [x] `GET /rooms/{room_id}/members` - Get the list of all chat members associated with the specified chat
-  - [x] `PUT /rooms/{room_id}/members` - Change associated members of group chat at once
-  - [x] `GET /rooms/{room_id}/messages` - Get all messages associated with the specified chat
-  - [x] `POST /rooms/{room_id}/messages` - Add new message to the chat
-  - [x] `GET /rooms/{room_id}/messages/{message_id}` - Get information about the specified message
-  - [x] `PUT /rooms/{room_id}/messages/{message_id}` - Update the specified message
-  - [x] `DELETE /rooms/{room_id}/messages/{message_id}` - Delete the specified message
-  - [x] `GET /rooms/{room_id}/tasks` - Get the list of tasks associated with the specified chat
-  - [x] `POST /rooms/{room_id}/tasks` - Add a new task to the chat
-  - [x] `GET /rooms/{room_id}/tasks/{task_id}` - Get information about the specified task
-  - [x] `GET /rooms/{room_id}/files` - Get the list of files associated with the specified chat
-  - [x] `GET /rooms/{room_id}/files/{file_id}` - Get information about the specified file
+## Operations
+
+This node supports the following ChatWork API operations:
+
+### Me
+- Get account information
+
+### My
+- Get status (unread counts, tasks)
+- Get tasks assigned to the authenticated user
+
+### Contacts
+- Get contact list
+
+### Rooms
+- Get all rooms
+- Get room details
+- Create a room
+- Update room information
+- Leave or delete a room
+- Get room members
+- Change associated members
+- Get messages
+- Send a message
+- Get message details
+- Update a message
+- Delete a message
+- Get tasks
+- Create a task
+- Get task details
+- Get files
+- Get file details (with optional temporary download URL)
 
 ## Credentials
 
-- [ChatWork Api Key](https://help.chatwork.com/hc/ja/articles/115000172402-API%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%82%92%E7%99%BA%E8%A1%8C%E3%81%99%E3%82%8B)
+This node requires a **ChatWork API Token**.
+
+### Prerequisites
+- A ChatWork account
+- An API token generated from your ChatWork account settings
+
+### Setup
+1. In n8n, go to **Credentials**
+2. Create new credentials of type **ChatWork API**
+3. Paste your ChatWork API token
+4. Save the credentials and select them in the ChatWork node
+
+Authentication is handled via the `X-ChatWorkToken` request header.
+
+## Compatibility
+
+- **Minimum n8n version**: 1.x
+- **Tested with**: n8n 1.x (community nodes API v1)
+
+This node uses the new **routing-based request system** introduced in n8n v1. Older n8n versions are not supported.
+
+## Usage
+
+Most operations are straightforward and map directly to ChatWork API endpoints.
+
+Notes:
+- Some ChatWork endpoints (for example, sending messages or uploading files) require
+  `multipart/form-data`. This node handles the required headers automatically.
+- Boolean options such as *Create download URL* control optional API query parameters.
+- When sending messages, the message body is automatically mapped to the API request body.
+
+If you are new to n8n, see the [Try it out](https://docs.n8n.io/try-it-out/) guide to get started.
+
+## Resources
+
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [ChatWork API Documentation (PDF)](https://download.chatwork.com/ChatWork_API_Documentation.pdf)
+
+## Version history
+
+### 1.2.0
+- Migrated to n8n routing-based request structure
+- Improved Room operations
+- Fixed message sending with multipart/form-data
+- General refactoring and cleanup
