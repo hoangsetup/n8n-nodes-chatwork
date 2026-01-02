@@ -37,7 +37,9 @@ export class ChatworkTrigger implements INodeType {
         name: 'default',
         httpMethod: 'POST',
         responseMode: 'onReceived',
+        responseData: 'noData',
         path: '',
+        isFullPath: true,
       },
     ],
     properties: [
