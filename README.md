@@ -53,6 +53,47 @@ This node supports the following ChatWork API operations:
 - Get files
 - Get file details (with optional temporary download URL)
 
+## Webhook Trigger
+
+This package provides a **Chatwork Trigger** node that allows n8n workflows to receive events from Chatwork via webhooks.
+
+### Supported Events
+
+The trigger node listens to incoming Chatwork webhook events and routes them to different outputs:
+
+| Event Type        | Output          |
+|-------------------|-----------------|
+| `mention_to_me`   | Mention To Me   |
+| `message_created` | Message Created |
+| `message_updated` | Message Updated |
+
+### Webhook Security
+
+Chatwork signs webhook requests using an HMAC-SHA256 signature.
+
+The Chatwork Trigger node supports **optional signature verification** using one or more webhook tokens:
+
+- Signature header: `x-chatworkwebhooksignature`
+- Hash algorithm: HMAC-SHA256
+- Secret key: Base64-decoded webhook token
+
+> Signature verification can be disabled for local development and testing.
+
+
+Each output can be connected independently in your workflow.
+
+### Development Notes
+
+- The workflow must be **active** for webhooks to be registered
+- Webhooks will return `404 – unknown webhook` if the workflow is inactive
+- Signature verification should be disabled when testing with manual `curl` requests
+
+### Known Limitations
+
+- Webhook events are currently processed **as-is**
+- Duplicate or replayed webhook events are **not yet deduplicated**
+- Replay protection and idempotency will be added in a future release
+
 ## Credentials
 
 This node requires a **ChatWork API Token**.

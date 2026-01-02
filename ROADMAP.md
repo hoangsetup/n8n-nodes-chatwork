@@ -50,4 +50,7 @@ This document tracks ChatWork API coverage for the n8n ChatWork node.
 
 - Pagination support
 - Binary file download support
-- Trigger node (webhook-based)
+- Rate limiting for webhook triggers
+- Webhook event versioning
+- Improved TypeScript typings for webhook payloads
+- End-to-end tests for webhook flows
