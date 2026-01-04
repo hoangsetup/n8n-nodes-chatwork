@@ -3,24 +3,60 @@ import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
 export const roomIdProperty: INodeProperties = {
   displayName: 'Room ID',
   name: 'roomId',
-  type: 'number',
+  type: 'resourceLocator',
   required: true,
-  description: 'ID of the room',
-  default: null,
+  description: 'Select a room or enter a Room ID manually',
+  modes: [
+    {
+      displayName: 'By Name',
+      type: 'list',
+      name: 'list',
+      placeholder: 'Select a room...',
+      typeOptions: {
+        searchListMethod: 'getRooms',
+        searchable: true,
+      },
+    },
+    {
+      displayName: 'By ID',
+      type: 'string',
+      name: 'id',
+      placeholder: 'e.g. 1234567890',
+      validation: [
+        {
+          type: 'regex',
+          properties: {
+            regex: '^[0-9]+$',
+            errorMessage: 'Room ID must be a number',
+          },
+        },
+      ],
+    },
+  ],
+  default: {
+    mode: 'list',
+    value: '',
+  },
 };
 
 export const membersAdminIdsProperty: INodeProperties = {
   displayName: 'Group Chat Administrators',
   name: 'membersAdminIds',
-  type: 'string',
-  default: '',
   required: true,
-  placeholder: '123,542,1001',
-  description: 'Comma-separated account IDs of admins',
+  // type: 'multiOptions',
+  type: 'string',
+  description: 'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+  default: [],
+  typeOptions: {
+    multipleValues: true,
+    multipleValuesButtonText: 'Add Admin',
+    loadOptionsMethod: 'getContacts',
+  },
   routing: {
     send: {
       type: 'body',
       property: 'members_admin_ids',
+      value: "={{$parameter.membersAdminIds.join(',')}}",
     },
   },
 };
