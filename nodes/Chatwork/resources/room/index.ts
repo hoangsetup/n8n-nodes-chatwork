@@ -52,14 +52,6 @@ export const roomProperties: INodeProperties[] = [
           request: {
             method: 'POST',
             url: '/rooms',
-            body: {
-              name: '={{$parameter.name}}',
-              members_admin_ids: '={{$parameter.membersAdminIds}}',
-              icon_preset: '={{$parameter.iconPreset}}',
-              description: '={{$parameter.description || undefined}}',
-              members_member_ids: '={{$parameter.membersMemberIds || undefined}}',
-              members_readonly_ids: '={{$parameter.membersReadonlyIds || undefined}}',
-            },
           },
         },
       },

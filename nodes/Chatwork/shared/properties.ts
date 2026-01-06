@@ -65,6 +65,12 @@ export const roomNameProperty: INodeProperties = {
   default: '',
   placeholder: 'Website renewal project',
   description: 'Title of the group chat',
+  routing: {
+    send: {
+      type: 'body',
+      property: 'name',
+    },
+  },
 };
 
 export const descriptionProperty: INodeProperties = {
@@ -74,6 +80,13 @@ export const descriptionProperty: INodeProperties = {
   default: '',
   placeholder: 'group chat description',
   description: 'Description of the group chat',
+  routing: {
+    send: {
+      type: 'body',
+      property: 'description',
+      value: '={{$parameter.description || undefined}}',
+    },
+  },
 };
 
 export const iconPresetProperty: INodeProperties = {
@@ -87,6 +100,12 @@ export const iconPresetProperty: INodeProperties = {
     'idea', 'heart', 'magcup', 'beer', 'music', 'sports', 'travel',
   ].map<INodePropertyOptions>((v) => ({ name: v, value: v })),
   description: 'Type of the group chat icon',
+  routing: {
+    send: {
+      type: 'body',
+      property: 'icon_preset',
+    },
+  },
 };
 
 export const membersMemberIdsProperty: INodeProperties = {
