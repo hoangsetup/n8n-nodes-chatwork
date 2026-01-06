@@ -3,24 +3,57 @@ import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
 export const roomIdProperty: INodeProperties = {
   displayName: 'Room ID',
   name: 'roomId',
-  type: 'number',
+  type: 'resourceLocator',
   required: true,
-  description: 'ID of the room',
-  default: null,
+  description: 'Select a room or enter a Room ID manually',
+  modes: [
+    {
+      displayName: 'By Name',
+      type: 'list',
+      name: 'list',
+      placeholder: 'Select a room...',
+      typeOptions: {
+        searchListMethod: 'getRooms',
+        searchable: true,
+      },
+    },
+    {
+      displayName: 'By ID',
+      type: 'string',
+      name: 'id',
+      placeholder: 'e.g. 1234567890',
+      validation: [
+        {
+          type: 'regex',
+          properties: {
+            regex: '^[0-9]+$',
+            errorMessage: 'Room ID must be a number',
+          },
+        },
+      ],
+    },
+  ],
+  default: {
+    mode: 'list',
+    value: '',
+  },
 };
 
 export const membersAdminIdsProperty: INodeProperties = {
   displayName: 'Group Chat Administrators',
   name: 'membersAdminIds',
-  type: 'string',
-  default: '',
   required: true,
-  placeholder: '123,542,1001',
-  description: 'Comma-separated account IDs of admins',
+  type: 'multiOptions',
+  description: 'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+  default: [],
+  typeOptions: {
+    loadOptionsMethod: 'getContacts',
+  },
   routing: {
     send: {
       type: 'body',
       property: 'members_admin_ids',
+      value: `={{$parameter.membersAdminIds.join(',')}}`,
     },
   },
 };
@@ -59,14 +92,18 @@ export const iconPresetProperty: INodeProperties = {
 export const membersMemberIdsProperty: INodeProperties = {
   displayName: 'Group Chat Members',
   name: 'membersMemberIds',
-  type: 'string',
-  default: '',
-  placeholder: '21,344',
-  description: 'Comma-separated account IDs of members',
+  type: 'multiOptions',
+  description:
+    'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+  default: [],
+  typeOptions: {
+    loadOptionsMethod: 'getContacts',
+  },
   routing: {
     send: {
       type: 'body',
       property: 'members_member_ids',
+      value: `={{$parameter.membersMemberIds.join(',')}}`,
     },
   },
 };
@@ -74,14 +111,18 @@ export const membersMemberIdsProperty: INodeProperties = {
 export const membersReadonlyIdsProperty: INodeProperties = {
   displayName: 'Group Chat Read-only Users',
   name: 'membersReadonlyIds',
-  type: 'string',
-  default: '',
-  placeholder: '15,103',
-  description: 'Comma-separated account IDs of readonly members',
+  type: 'multiOptions',
+  description:
+    'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+  default: [],
+  typeOptions: {
+    loadOptionsMethod: 'getContacts',
+  },
   routing: {
     send: {
       type: 'body',
       property: 'members_readonly_ids',
+      value: `={{$parameter.membersReadonlyIds.join(',')}}`,
     },
   },
 };
