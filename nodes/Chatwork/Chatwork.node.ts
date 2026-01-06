@@ -3,6 +3,8 @@ import {
   INodeTypeDescription,
   NodeConnectionType,
 } from 'n8n-workflow';
+import { getContacts } from './loadOptions/getContacts';
+import { getRooms } from './listSearch/getRooms';
 import { resourceProperties } from './resources';
 
 export class Chatwork implements INodeType {
@@ -36,5 +38,13 @@ export class Chatwork implements INodeType {
     properties: [
       ...resourceProperties,
     ],
+  };
+  methods: INodeType['methods'] = {
+    listSearch: {
+      getRooms,
+    },
+    loadOptions: {
+      getContacts,
+    },
   };
 }
