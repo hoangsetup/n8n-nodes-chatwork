@@ -199,3 +199,12 @@ export const accountIdProperty: INodeProperties = {
 		},
 	},
 };
+
+export const taskIdProperty: INodeProperties = {
+	displayName: 'Task ID',
+	name: 'taskId',
+	type: 'number',
+	required: true,
+	default: 0,
+	description: 'ID of the task',
+};

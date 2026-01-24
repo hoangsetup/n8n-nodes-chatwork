@@ -18,6 +18,7 @@ import { roomUpdateMessageProperties } from './upddateMessage';
 import { roomDeleteMessageProperties } from './deleteMessage';
 import { roomMarkAsReadProperties } from './markAsRead';
 import { roomMarkAsUnreadProperties } from './markAsUnread';
+import { roomUpdateTaskStatusProperties } from './updateTaskStatus';
 
 export const roomProperties: INodeProperties[] = [
 	{
@@ -202,6 +203,17 @@ export const roomProperties: INodeProperties[] = [
 				},
 			},
 			{
+				name: 'Update Task Status',
+				value: RoomOperations.UPDATE_TASK_STATUS,
+				description: 'Change the completion status of a task',
+				routing: {
+					request: {
+						method: 'PUT',
+						url: '=/rooms/{{$parameter["roomId"]}}/tasks/{{$parameter["taskId"]}}/status',
+					},
+				},
+			},
+			{
 				name: 'Get Files',
 				value: RoomOperations.GET_FILES,
 				description: 'Get the list of files in the room',
@@ -265,4 +277,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomGetFileProperties,
 	...roomMarkAsReadProperties,
 	...roomMarkAsUnreadProperties,
+	...roomUpdateTaskStatusProperties,
 ];

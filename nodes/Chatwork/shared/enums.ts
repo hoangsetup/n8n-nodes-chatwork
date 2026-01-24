@@ -19,6 +19,7 @@ export enum RoomOperations {
 	DELETE_MESSAGE = 'deleteMessage',
 	GET_TASKS = 'getTasks',
 	GET_TASK = 'getTaskDetail',
+	UPDATE_TASK_STATUS = 'updateTaskStatus',
 	CREATE_TASK = 'createTask',
 	GET_FILES = 'getFiles',
 	GET_FILE = 'getFile',

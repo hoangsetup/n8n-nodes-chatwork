@@ -51,6 +51,7 @@ This node supports the following ChatWork API operations:
 - Mark as unread
 - Get tasks
 - Create a task
+- Update task status
 - Get task details
 - Get files
 - Get file details (with optional temporary download URL)
