@@ -47,6 +47,7 @@ This node supports the following ChatWork API operations:
 - Get message details
 - Update a message
 - Delete a message
+- Mark as Read
 - Get tasks
 - Create a task
 - Get task details

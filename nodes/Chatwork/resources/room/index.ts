@@ -16,6 +16,7 @@ import { roomGetFilesProperties } from './getFiles';
 import { roomGetFileProperties } from './getFile';
 import { roomUpdateMessageProperties } from './upddateMessage';
 import { roomDeleteMessageProperties } from './deleteMessage';
+import { roomMarkAsReadProperties } from './markAsRead';
 
 export const roomProperties: INodeProperties[] = [
 	{
@@ -221,6 +222,17 @@ export const roomProperties: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Mark as Read',
+				value: RoomOperations.MARK_AS_READ,
+				description: 'Mark messages in the room as read',
+				routing: {
+					request: {
+						method: 'PUT',
+						url: '=/rooms/{{$parameter["roomId"]}}/messages/read',
+					},
+				},
+			},
 		],
 	},
 	...roomCreateProperties,
@@ -239,4 +251,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomGetTaskProperties,
 	...roomGetFilesProperties,
 	...roomGetFileProperties,
+	...roomMarkAsReadProperties,
 ];

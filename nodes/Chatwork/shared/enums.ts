@@ -22,5 +22,6 @@ export enum RoomOperations {
 	CREATE_TASK = 'createTask',
 	GET_FILES = 'getFiles',
 	GET_FILE = 'getFile',
+	MARK_AS_READ = 'markAsRead',
 	CREATE = 'create',
 }
