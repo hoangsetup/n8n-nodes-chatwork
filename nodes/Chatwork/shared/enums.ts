@@ -23,5 +23,6 @@ export enum RoomOperations {
 	GET_FILES = 'getFiles',
 	GET_FILE = 'getFile',
 	MARK_AS_READ = 'markAsRead',
+	MARK_AS_UNREAD = 'markAsUnread',
 	CREATE = 'create',
 }

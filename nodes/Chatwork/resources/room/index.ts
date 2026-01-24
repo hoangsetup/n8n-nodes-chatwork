@@ -17,6 +17,7 @@ import { roomGetFileProperties } from './getFile';
 import { roomUpdateMessageProperties } from './upddateMessage';
 import { roomDeleteMessageProperties } from './deleteMessage';
 import { roomMarkAsReadProperties } from './markAsRead';
+import { roomMarkAsUnreadProperties } from './markAsUnread';
 
 export const roomProperties: INodeProperties[] = [
 	{
@@ -233,6 +234,17 @@ export const roomProperties: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Mark as Unread',
+				value: RoomOperations.MARK_AS_UNREAD,
+				description: 'Mark message in the room as unread',
+				routing: {
+					request: {
+						method: 'PUT',
+						url: '=/rooms/{{$parameter["roomId"]}}/messages/unread',
+					},
+				},
+			},
 		],
 	},
 	...roomCreateProperties,
@@ -252,4 +264,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomGetFilesProperties,
 	...roomGetFileProperties,
 	...roomMarkAsReadProperties,
+	...roomMarkAsUnreadProperties,
 ];
