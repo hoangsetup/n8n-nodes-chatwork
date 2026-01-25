@@ -20,6 +20,7 @@ import { roomDeleteMessageProperties } from './deleteMessage';
 import { roomMarkAsReadProperties } from './markAsRead';
 import { roomMarkAsUnreadProperties } from './markAsUnread';
 import { roomUpdateTaskStatusProperties } from './updateTaskStatus';
+import { roomGetInviteLinkProperties } from './getInviteLink';
 
 export const roomProperties: INodeProperties[] = [
 	{
@@ -296,6 +297,17 @@ export const roomProperties: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Get Invite Link',
+				value: RoomOperations.GET_LINK,
+				description: 'Get invite link for the room',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '=/rooms/{{$parameter["roomId"]}}/link',
+					},
+				},
+			},
 		],
 	},
 	...roomCreateProperties,
@@ -318,4 +330,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomMarkAsReadProperties,
 	...roomMarkAsUnreadProperties,
 	...roomUpdateTaskStatusProperties,
+	...roomGetInviteLinkProperties,
 ];

@@ -27,4 +27,5 @@ export enum RoomOperations {
 	MARK_AS_READ = 'markAsRead',
 	MARK_AS_UNREAD = 'markAsUnread',
 	CREATE = 'create',
+	GET_LINK = 'getInviteLink',
 }
