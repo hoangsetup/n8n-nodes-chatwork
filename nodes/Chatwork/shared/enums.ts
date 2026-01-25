@@ -3,6 +3,7 @@ export enum Resource {
 	MY = 'My',
 	CONTACT = 'Contact',
 	ROOM = 'Room',
+	INCOMING_REQUEST = 'IncomingRequest',
 }
 
 export enum RoomOperations {

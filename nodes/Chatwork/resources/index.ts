@@ -1,6 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 import { Resource } from '../shared/enums';
 import { contactProperties } from './contact';
+import { incomingRequestProperties } from './incomingRequest';
 import { meProperties } from './me';
 import { myProperties } from './my';
 import { roomProperties } from './room';
@@ -35,10 +36,16 @@ export const resourceProperties: INodeProperties[] = [
 				description:
 					'Used to access information such as messages, members, files, and tasks associated to a specific conversation. The conversation can be Group chat, Direct chat, or My chat.',
 			},
+			{
+				name: 'Incoming Request',
+				value: Resource.INCOMING_REQUEST,
+				description: 'Used to access the list of contact requests you have received',
+			},
 		],
 	},
 	...contactProperties,
 	...meProperties,
 	...myProperties,
 	...roomProperties,
+	...incomingRequestProperties,
 ];

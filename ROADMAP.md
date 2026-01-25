@@ -16,6 +16,12 @@ This document tracks ChatWork API coverage for the n8n ChatWork node.
 ### `/contacts`
 - [x] Get contact list
 
+### `/incoming_requests`
+
+- [x] List incoming requests
+- [x] Approve request
+- [x] Decline request
+
 ### `/rooms`
 - [x] Get all rooms
 - [x] Create room
@@ -34,15 +40,6 @@ This document tracks ChatWork API coverage for the n8n ChatWork node.
 - [x] Get task detail
 - [x] Get files
 - [x] Get file detail (with download URL option)
-
----
-
-## Planned
-
-### `/incoming_requests`
-- [ ] List incoming requests
-- [ ] Approve request
-- [ ] Decline request
 
 ---
 

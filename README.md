@@ -34,6 +34,12 @@ This node supports the following ChatWork API operations:
 ### Contacts
 - Get contact list
 
+### Incoming Requests
+
+- List incoming requests
+- Approve request
+- Decline request
+
 ### Rooms
 - Get all rooms
 - Get room details
