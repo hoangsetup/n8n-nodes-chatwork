@@ -23,6 +23,7 @@ export enum RoomOperations {
 	CREATE_TASK = 'createTask',
 	GET_FILES = 'getFiles',
 	GET_FILE = 'getFile',
+	UPLOAD_FILE = 'uploadFile',
 	MARK_AS_READ = 'markAsRead',
 	MARK_AS_UNREAD = 'markAsUnread',
 	CREATE = 'create',

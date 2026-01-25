@@ -14,6 +14,7 @@ import { roomCreateTaskProperties } from './createTask';
 import { roomGetTaskProperties } from './getTask';
 import { roomGetFilesProperties } from './getFiles';
 import { roomGetFileProperties } from './getFile';
+import { roomUploadFileProperties } from './uploadFile';
 import { roomUpdateMessageProperties } from './upddateMessage';
 import { roomDeleteMessageProperties } from './deleteMessage';
 import { roomMarkAsReadProperties } from './markAsRead';
@@ -236,6 +237,44 @@ export const roomProperties: INodeProperties[] = [
 				},
 			},
 			{
+				name: 'Upload File',
+				value: RoomOperations.UPLOAD_FILE,
+				description: 'Upload a new file to the room',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/rooms/{{$parameter["roomId"]}}/files',
+						headers: {
+							accept: 'application/json',
+							'content-type': 'multipart/form-data',
+						},
+					},
+					send: {
+						preSend: [
+							async function (this, requestOptions) {
+								const binaryProperty = this.getNodeParameter('binaryPropertyName', 0) as string;
+								const { fileName, mimeType } = this.helpers.assertBinaryData(binaryProperty, 0);
+								const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(binaryProperty, 0);
+
+								const formData = new FormData();
+								formData.append(
+									'file',
+									new Blob([binaryDataBuffer], { type: mimeType }),
+									fileName,
+								);
+								const message = this.getNodeParameter('message', '') as string;
+								if (message) {
+									formData.append('message', message);
+								}
+
+								requestOptions.body = formData;
+								return requestOptions;
+							},
+						],
+					},
+				},
+			},
+			{
 				name: 'Mark as Read',
 				value: RoomOperations.MARK_AS_READ,
 				description: 'Mark messages in the room as read',
@@ -275,6 +314,7 @@ export const roomProperties: INodeProperties[] = [
 	...roomGetTaskProperties,
 	...roomGetFilesProperties,
 	...roomGetFileProperties,
+	...roomUploadFileProperties,
 	...roomMarkAsReadProperties,
 	...roomMarkAsUnreadProperties,
 	...roomUpdateTaskStatusProperties,

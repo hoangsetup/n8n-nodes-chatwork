@@ -55,6 +55,7 @@ This node supports the following ChatWork API operations:
 - Get task details
 - Get files
 - Get file details (with optional temporary download URL)
+- Upload file
 
 ## Webhook Trigger
 
