@@ -1,26 +1,27 @@
 import { INodeProperties } from 'n8n-workflow';
 import { Resource, RoomOperations } from '../../shared/enums';
-import { roomCreateProperties } from './create';
-import { sendMessageProperties } from './sendMessage';
-import { roomUpdateProperties } from './update';
-import { roomGetProperties } from './get';
-import { roomLeaveOrDeleteProperties } from './leaveOrDelete';
-import { roomGetMembersProperties } from './getMembers';
 import { roomChangeMembersProperties } from './changeMembers';
-import { roomGetMessagesProperties } from './getMessages';
-import { roomGetMessageProperties } from './getMessage';
-import { roomGetTasksProperties } from './getTasks';
+import { roomCreateProperties } from './create';
+import { roomCreateInviteLinkProperties } from './createInviteLink';
 import { roomCreateTaskProperties } from './createTask';
-import { roomGetTaskProperties } from './getTask';
-import { roomGetFilesProperties } from './getFiles';
-import { roomGetFileProperties } from './getFile';
-import { roomUploadFileProperties } from './uploadFile';
-import { roomUpdateMessageProperties } from './upddateMessage';
 import { roomDeleteMessageProperties } from './deleteMessage';
+import { roomGetProperties } from './get';
+import { roomGetFileProperties } from './getFile';
+import { roomGetFilesProperties } from './getFiles';
+import { roomGetInviteLinkProperties } from './getInviteLink';
+import { roomGetMembersProperties } from './getMembers';
+import { roomGetMessageProperties } from './getMessage';
+import { roomGetMessagesProperties } from './getMessages';
+import { roomGetTaskProperties } from './getTask';
+import { roomGetTasksProperties } from './getTasks';
+import { roomLeaveOrDeleteProperties } from './leaveOrDelete';
 import { roomMarkAsReadProperties } from './markAsRead';
 import { roomMarkAsUnreadProperties } from './markAsUnread';
+import { sendMessageProperties } from './sendMessage';
+import { roomUpdateProperties } from './update';
 import { roomUpdateTaskStatusProperties } from './updateTaskStatus';
-import { roomGetInviteLinkProperties } from './getInviteLink';
+import { roomUpdateMessageProperties } from './upddateMessage';
+import { roomUploadFileProperties } from './uploadFile';
 
 export const roomProperties: INodeProperties[] = [
 	{
@@ -258,11 +259,7 @@ export const roomProperties: INodeProperties[] = [
 								const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(binaryProperty, 0);
 
 								const formData = new FormData();
-								formData.append(
-									'file',
-									new Blob([binaryDataBuffer], { type: mimeType }),
-									fileName,
-								);
+								formData.append('file', new Blob([binaryDataBuffer], { type: mimeType }), fileName);
 								const message = this.getNodeParameter('message', '') as string;
 								if (message) {
 									formData.append('message', message);
@@ -308,6 +305,17 @@ export const roomProperties: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Create Invite Link',
+				value: RoomOperations.CREATE_LINK,
+				description: 'Create invite link for the room',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/rooms/{{$parameter["roomId"]}}/link',
+					},
+				},
+			},
 		],
 	},
 	...roomCreateProperties,
@@ -331,4 +339,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomMarkAsUnreadProperties,
 	...roomUpdateTaskStatusProperties,
 	...roomGetInviteLinkProperties,
+	...roomCreateInviteLinkProperties,
 ];
