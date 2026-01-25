@@ -58,6 +58,7 @@ This node supports the following ChatWork API operations:
 - Upload file
 - Get invite link
 - Create invite link
+- Delete invite link
 
 ## Webhook Trigger
 

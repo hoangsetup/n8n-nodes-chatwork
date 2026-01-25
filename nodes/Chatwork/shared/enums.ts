@@ -29,4 +29,5 @@ export enum RoomOperations {
 	CREATE = 'create',
 	GET_LINK = 'getInviteLink',
 	CREATE_LINK = 'createInviteLink',
+	DELETE_LINK = 'deleteInviteLink',
 }

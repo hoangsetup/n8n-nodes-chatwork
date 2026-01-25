@@ -4,6 +4,7 @@ import { roomChangeMembersProperties } from './changeMembers';
 import { roomCreateProperties } from './create';
 import { roomCreateInviteLinkProperties } from './createInviteLink';
 import { roomCreateTaskProperties } from './createTask';
+import { roomDeleteInviteLinkProperties } from './deleteInviteLink';
 import { roomDeleteMessageProperties } from './deleteMessage';
 import { roomGetProperties } from './get';
 import { roomGetFileProperties } from './getFile';
@@ -316,6 +317,17 @@ export const roomProperties: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Delete Invite Link',
+				value: RoomOperations.DELETE_LINK,
+				description: 'Delete invite link for the room',
+				routing: {
+					request: {
+						method: 'DELETE',
+						url: '=/rooms/{{$parameter["roomId"]}}/link',
+					},
+				},
+			},
 		],
 	},
 	...roomCreateProperties,
@@ -340,4 +352,5 @@ export const roomProperties: INodeProperties[] = [
 	...roomUpdateTaskStatusProperties,
 	...roomGetInviteLinkProperties,
 	...roomCreateInviteLinkProperties,
+	...roomDeleteInviteLinkProperties,
 ];
