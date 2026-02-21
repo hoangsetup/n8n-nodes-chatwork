@@ -14,7 +14,7 @@ export class ChatworkApi implements ICredentialType {
 		'https://help.chatwork.com/hc/ja/articles/115000172402-API%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%82%92%E7%99%BA%E8%A1%8C%E3%81%99%E3%82%8B';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Api Token',
+			displayName: 'API Token',
 			name: 'apiToken',
 			type: 'string',
 			typeOptions: { password: true },

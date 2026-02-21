@@ -1,12 +1,12 @@
 import {
 	ApplicationError,
+	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
 	IWebhookFunctions,
 	IWebhookResponseData,
 	NodeConnectionType,
 } from 'n8n-workflow';
-import { INodeExecutionData } from 'n8n-workflow/dist/Interfaces';
 import { verifyChatworkSignature } from './shared/utils';
 
 export class ChatworkTrigger implements INodeType {
