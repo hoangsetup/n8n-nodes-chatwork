@@ -8,10 +8,6 @@ updates:
       - dependency-type: "production"
     ignore:
       - dependency-name: "axios"
-        version: [ "*" ]
       - dependency-name: "form-data"
-        version: [ "*" ]
       - dependency-name: "lodash"
-        version: [ "*" ]
       - dependency-name: "undici"
-        version: [ "*" ]
